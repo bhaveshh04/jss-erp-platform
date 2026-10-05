@@ -3,6 +3,9 @@ import { CheckCircle2 } from "lucide-react";
 import { Eyebrow, SectionHeading, PrimaryButton } from "@/components/ui/marketing-ui";
 import { getSiteContentMany } from "@/lib/site-content-db";
 
+// Always server-render fresh — reads live content edited from Portal → Website content.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Products & Services",
   description:

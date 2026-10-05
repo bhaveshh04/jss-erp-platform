@@ -3,6 +3,10 @@ import { Eyebrow, SectionHeading, PrimaryButton, GhostButton } from "@/component
 import { StatCounter } from "@/components/ui/StatCounter";
 import { getSiteContentMany } from "@/lib/site-content-db";
 
+// Always server-render fresh — this page reads live content edited from
+// Portal → Website content, so it must never be served from a static cache.
+export const dynamic = "force-dynamic";
+
 const whyIcons = [Compass, Layers, TrendingUp, ArrowUpRight, ShieldCheck];
 
 export default async function Home() {

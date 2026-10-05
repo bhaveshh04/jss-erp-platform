@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Eyebrow, SectionHeading, PrimaryButton } from "@/components/ui/marketing-ui";
 import { getSiteContent } from "@/lib/site-content-db";
 
+// Always server-render fresh — reads live content edited from Portal → Website content.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Portfolio & Case Studies",
   description:

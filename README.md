@@ -232,6 +232,16 @@ editable section in the future: add a schema, a default, and an entry in
 public marketing page fetches its content directly from the database on
 each request — there's no cache to bust and no rebuild step after an edit.
 
+**Why this actually works:** every file under `app/(marketing)/` exports
+`export const dynamic = "force-dynamic";`. Without that line, Next.js's App
+Router treats a page with no per-request API calls (no `cookies()`,
+`headers()`, etc.) as safe to statically render once at build time and
+cache forever — which would mean content edited from the portal never
+shows up until the next deploy, even though the database itself updated.
+`force-dynamic` tells Next to re-render that page from scratch on every
+request instead. If you ever add a new marketing page, copy that same line
+into it.
+
 
 ---
 

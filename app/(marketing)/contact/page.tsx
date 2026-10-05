@@ -4,6 +4,9 @@ import { Eyebrow, SectionHeading } from "@/components/ui/marketing-ui";
 import ContactForm from "@/components/marketing/ContactForm";
 import { getSiteContent } from "@/lib/site-content-db";
 
+// Always server-render fresh — reads live content edited from Portal → Website content.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
