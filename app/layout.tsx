@@ -14,48 +14,91 @@ const inter = Inter({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.jssinnovativesolutions.com";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://www.jssinnovativesolutions.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
   title: {
-    default: "JSS Innovative Solutions | 200% Customized ERP Solutions, Pune",
+    default:
+      "JSS Innovative Solutions | Custom Software & ERP Solutions in Pune",
     template: "%s | JSS Innovative Solutions",
   },
+
   description:
-    "JSS Innovative Solutions is a Pune-based ERP implementation and custom software partner delivering 200% customized ERP, inventory, billing, GST, payroll and CRM solutions for manufacturing, textile and process industries across India.",
+    "JSS Innovative Solutions is a Pune-based technology company providing custom software, ERP, web applications, automation and AI-powered solutions for businesses across India.",
+
   keywords: [
-    "ERP software Pune",
-    "custom ERP solutions India",
-    "ERP implementation company",
-    "GST billing software",
-    "payroll software Pune",
-    "manufacturing ERP",
     "JSS Innovative Solutions",
+    "software development company Pune",
+    "custom software development Pune",
+    "custom software solutions",
+    "ERP software Pune",
+    "ERP solutions Pune",
+    "manufacturing ERP",
+    "business automation software",
+    "web application development Pune",
+    "AI solutions Pune",
   ],
-  authors: [{ name: "JSS Innovative Solutions" }],
+
+  authors: [
+    {
+      name: "JSS Innovative Solutions",
+    },
+  ],
+
+  creator: "JSS Innovative Solutions",
+  publisher: "JSS Innovative Solutions",
+
+  alternates: {
+    canonical: "/",
+  },
+
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "JSS Innovative Solutions",
-    title: "JSS Innovative Solutions | 200% Customized ERP Solutions",
-    description:
-      "Pune-based ERP implementation and custom software partner — 200% customized ERP, inventory, billing, GST, payroll and CRM.",
     url: siteUrl,
+    title:
+      "JSS Innovative Solutions | Custom Software & ERP Solutions in Pune",
+    description:
+      "Custom software, ERP, web applications, automation and AI-powered solutions for businesses across India.",
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "JSS Innovative Solutions | 200% Customized ERP Solutions",
+    title:
+      "JSS Innovative Solutions | Custom Software & ERP Solutions in Pune",
     description:
-      "Pune-based ERP implementation and custom software partner — 200% customized ERP, inventory, billing, GST, payroll and CRM.",
+      "Custom software, ERP, web applications, automation and AI-powered solutions for businesses across India.",
   },
-  robots: { index: true, follow: true },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-paper text-ink">{children}</body>
+    <html
+      lang="en"
+      className={`${sora.variable} ${inter.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col bg-paper text-ink">
+        {children}
+      </body>
     </html>
   );
 }

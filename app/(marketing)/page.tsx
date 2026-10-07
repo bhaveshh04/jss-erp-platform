@@ -64,7 +64,7 @@ export default async function Home() {
           <div>
             <Eyebrow>Who we are</Eyebrow>
             <h2 className="mt-3 font-heading text-3xl font-semibold leading-tight text-navy sm:text-4xl">
-              An ERP partner that starts with your process, not our product
+              A technology partner that starts with your process, not our product
             </h2>
             <p className="mt-5 text-base leading-relaxed text-slate">{about.whoWeAreBody}</p>
             <div className="mt-8">
@@ -93,7 +93,7 @@ export default async function Home() {
             dark
             eyebrow="What we build"
             title="Core services"
-            description="Four practice areas that plug directly into the ERP core — not bolt-on add-ons sold separately."
+            description="Custom-built technology solutions designed around your business processes — not generic products forced into your workflow."
           />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {services.items.map((s) => (
