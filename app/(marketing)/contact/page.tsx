@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { Eyebrow, SectionHeading } from "@/components/ui/marketing-ui";
+import { Eyebrow, PageHero, SectionHeading } from "@/components/ui/marketing-ui";
 import ContactForm from "@/components/marketing/ContactForm";
 import { getSiteContent } from "@/lib/site-content-db";
 
@@ -18,25 +18,18 @@ export default async function Contact() {
 
   return (
     <>
-      <section className="bg-navy text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-8 sm:py-24">
-          <Eyebrow dark>Contact</Eyebrow>
-          <h1 className="mt-5 font-heading text-4xl font-bold leading-tight sm:text-5xl">
-            Let&apos;s map your process before we talk product
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            Reach out for a discovery call, a product demo, or a general question —
-            we typically reply within one business day.
-          </p>
-        </div>
-      </section>
+<PageHero
+  eyebrow="Contact"
+  title="Let's map your process before we talk product"
+  description="Reach out for a discovery call, a product demo, or a general question — we typically reply within one business day."
+/>
 
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr]">
           <div>
             <SectionHeading eyebrow="Reach us directly" title="Prefer to just call or write?" />
             <ul className="mt-8 space-y-5">
-              <li className="flex items-start gap-4 rounded-2xl border border-line bg-white p-5">
+              <li className="flex items-start gap-4 	rounded-xl border border-line bg-white p-5">
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-gold-dim" strokeWidth={1.75} />
                 <div>
                   <div className="font-sans text-xs font-semibold uppercase tracking-wide text-slate">Call</div>
@@ -45,7 +38,7 @@ export default async function Contact() {
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-4 rounded-2xl border border-line bg-white p-5">
+              <li className="flex items-start gap-4 	rounded-xl border border-line bg-white p-5">
                 <Mail className="mt-0.5 h-5 w-5 shrink-0 text-gold-dim" strokeWidth={1.75} />
                 <div>
                   <div className="font-sans text-xs font-semibold uppercase tracking-wide text-slate">Email</div>
@@ -54,7 +47,7 @@ export default async function Contact() {
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-4 rounded-2xl border border-line bg-white p-5">
+              <li className="flex items-start gap-4 	rounded-xl border border-line bg-white p-5">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gold-dim" strokeWidth={1.75} />
                 <div>
                   <div className="font-sans text-xs font-semibold uppercase tracking-wide text-slate">Office</div>
@@ -63,7 +56,7 @@ export default async function Contact() {
               </li>
             </ul>
 
-            <div className="mt-8 overflow-hidden rounded-2xl border border-line">
+            <div className="mt-8 overflow-hidden 	rounded-xl border border-line">
               <iframe
                 title="JSS Innovative Solutions office location"
                 className="h-64 w-full grayscale"

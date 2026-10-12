@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model activitylog {
+  id        String   @id
+  type      String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt], map: "ActivityLog_createdAt_idx")
+}
+
+model attendance {
+  id        String    @id
+  userId    String
+  date      DateTime  @db.Date
+  inTime    DateTime?
+  outTime   DateTime?
+  inLat     Float?
+  inLng     Float?
+  outLat    Float?
+  outLng    Float?
+  createdAt DateTime  @default(now())
+  user      user      @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Attendance_userId_fkey")
+
+  @@unique([userId, date], map: "Attendance_userId_date_key")
+  @@index([date], map: "Attendance_date_idx")
+}
+
+model contactmessage {
+  id        String   @id
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  interest  String?
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model jobapplication {
+  id        String   @id
+  name      String
+  email     String
+  phone     String?
+  position  String
+  coverNote String?
+  resumeUrl String?
+  createdAt DateTime @default(now())
+}
+
+model leaverequest {
+  id                                   String              @id
+  userId                               String
+  fromDate                             DateTime            @db.Date
+  toDate                               DateTime            @db.Date
+  reason                               String
+  status                               leaverequest_status @default(PENDING)
+  reviewedById                         String?
+  createdAt                            DateTime            @default(now())
+  updatedAt                            DateTime
+  user_leaverequest_reviewedByIdTouser user?               @relation("leaverequest_reviewedByIdTouser", fields: [reviewedById], references: [id], map: "LeaveRequest_reviewedById_fkey")
+  user_leaverequest_userIdTouser       user                @relation("leaverequest_userIdTouser", fields: [userId], references: [id], onDelete: Cascade, map: "LeaveRequest_userId_fkey")
+
+  @@index([reviewedById], map: "LeaveRequest_reviewedById_fkey")
+  @@index([status], map: "LeaveRequest_status_idx")
+  @@index([userId], map: "LeaveRequest_userId_idx")
+}
+
+model officesettings {
+  id           Int      @id @default(1)
+  name         String   @default("JSS Innovative Solutions — Pune HQ")
+  lat          Float
+  lng          Float
+  radiusMeters Int      @default(200)
+  updatedAt    DateTime
+}
+
+model sitecontent {
+  id        String   @id
+  section   String   @unique(map: "SiteContent_section_key")
+  data      String   @db.LongText
+  updatedAt DateTime
+}
+
+model task {
+  id                           String        @id
+  title                        String
+  description                  String?
+  priority                     task_priority @default(MEDIUM)
+  status                       task_status   @default(PENDING)
+  dueDate                      DateTime?
+  assignedToId                 String
+  createdById                  String
+  createdAt                    DateTime      @default(now())
+  updatedAt                    DateTime
+  user_task_assignedToIdTouser user          @relation("task_assignedToIdTouser", fields: [assignedToId], references: [id], onDelete: Cascade, map: "Task_assignedToId_fkey")
+  user_task_createdByIdTouser  user          @relation("task_createdByIdTouser", fields: [createdById], references: [id], map: "Task_createdById_fkey")
+
+  @@index([assignedToId], map: "Task_assignedToId_idx")
+  @@index([createdById], map: "Task_createdById_fkey")
+  @@index([status], map: "Task_status_idx")
+}
+
+model user {
+  id                                           String         @id
+  name                                         String
+  email                                        String         @unique(map: "User_email_key")
+  passwordHash                                 String
+  role                                         user_role      @default(EMPLOYEE)
+  department                                   String?
+  active                                       Boolean        @default(true)
+  mustResetPw                                  Boolean        @default(false)
+  createdAt                                    DateTime       @default(now())
+  updatedAt                                    DateTime
+  attendance                                   attendance[]
+  leaverequest_leaverequest_reviewedByIdTouser leaverequest[] @relation("leaverequest_reviewedByIdTouser")
+  leaverequest_leaverequest_userIdTouser       leaverequest[] @relation("leaverequest_userIdTouser")
+  task_task_assignedToIdTouser                 task[]         @relation("task_assignedToIdTouser")
+  task_task_createdByIdTouser                  task[]         @relation("task_createdByIdTouser")
+
+  @@index([role], map: "User_role_idx")
+}
+
+enum task_priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum task_status {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum user_role {
+  OWNER
+  EMPLOYEE
+}
+
+enum leaverequest_status {
+  PENDING
+  APPROVED
+  REJECTED
+}

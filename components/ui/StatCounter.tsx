@@ -17,7 +17,6 @@ export function StatCounter({ value, suffix = "", label }: { value: number; suff
           started.current = true;
           const duration = 1400;
           const start = performance.now();
-
           const tick = (now: number) => {
             const progress = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
@@ -36,11 +35,11 @@ export function StatCounter({ value, suffix = "", label }: { value: number; suff
 
   return (
     <div ref={ref}>
-      <div className="font-heading text-3xl font-bold text-white sm:text-4xl">
+      <div className="tabular font-heading text-4xl font-semibold text-navy sm:text-5xl">
         {display}
-        {suffix}
+        <span className="text-brand">{suffix}</span>
       </div>
-      <div className="mt-1 text-xs text-white/55 sm:text-sm">{label}</div>
+      <div className="mt-2 text-sm text-slate">{label}</div>
     </div>
   );
 }

@@ -1,14 +1,10 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function Eyebrow({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <span
-      className={`inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.16em] ${
-        dark ? "text-gold" : "text-gold-dim"
-      }`}
-    >
-      <span className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-gold" : "bg-gold-dim"}`} />
+    <span className={`inline-flex items-center gap-2.5 text-sm font-semibold ${dark ? "text-gold" : "text-brand"}`}>
+      <span className={`h-px w-6 ${dark ? "bg-gold" : "bg-brand"}`} />
       {children}
     </span>
   );
@@ -31,18 +27,41 @@ export function SectionHeading({
     <div className={`max-w-2xl ${align === "center" ? "mx-auto text-center" : ""}`}>
       {eyebrow && <Eyebrow dark={dark}>{eyebrow}</Eyebrow>}
       <h2
-        className={`mt-3 font-heading text-3xl font-semibold leading-[1.1] sm:text-4xl ${
+        className={`mt-3 font-heading text-3xl font-semibold leading-[1.15] sm:text-4xl ${
           dark ? "text-white" : "text-navy"
         }`}
       >
         {title}
       </h2>
       {description && (
-        <p className={`mt-4 text-base leading-relaxed sm:text-lg ${dark ? "text-white/65" : "text-slate"}`}>
+        <p className={`mt-4 text-base leading-relaxed sm:text-lg ${dark ? "text-white/70" : "text-slate"}`}>
           {description}
         </p>
       )}
     </div>
+  );
+}
+
+/** Header used at the top of every inner page (About, Services, …) */
+export function PageHero({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <section className="border-b border-line bg-paper-dim">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        <h1 className="mt-4 max-w-3xl font-heading text-4xl font-semibold leading-[1.1] text-navy sm:text-5xl">
+          {title}
+        </h1>
+        {description && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate">{description}</p>}
+      </div>
+    </section>
   );
 }
 
@@ -61,7 +80,8 @@ export function PrimaryButton({
   type?: "button" | "submit";
   onClick?: () => void;
 }) {
-  const classes = `inline-flex w-fit items-center gap-1.5 rounded-full bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5 ${className}`;
+  const classes = `group inline-flex w-fit items-center gap-2 rounded-md bg-brand px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark ${className}`;
+  const arrow = <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={2.25} />;
   if (type) {
     return (
       <button type={type} onClick={onClick} className={classes}>
@@ -73,14 +93,14 @@ export function PrimaryButton({
     return (
       <a href={href} className={classes}>
         {children}
-        <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+        {arrow}
       </a>
     );
   }
   return (
     <Link href={to ?? "/"} className={classes}>
       {children}
-      <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+      {arrow}
     </Link>
   );
 }
@@ -90,13 +110,20 @@ export function GhostButton({
   href,
   children,
   className = "",
+  tone = "dark",
 }: {
   to?: string;
   href?: string;
   children: React.ReactNode;
   className?: string;
+  /** "dark" = on dark backgrounds, "light" = on white / grey backgrounds */
+  tone?: "dark" | "light";
 }) {
-  const classes = `inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 px-6 py-3.5 font-heading text-sm font-semibold text-white transition-colors hover:border-white/45 hover:bg-white/[0.06] ${className}`;
+  const toneClasses =
+    tone === "light"
+      ? "border-navy/20 text-navy hover:border-navy hover:bg-navy hover:text-white"
+      : "border-white/30 text-white hover:bg-white hover:text-navy";
+  const classes = `inline-flex w-fit items-center gap-2 rounded-md border px-6 py-3.5 text-sm font-semibold transition-colors ${toneClasses} ${className}`;
   if (href) {
     return (
       <a href={href} className={classes}>
@@ -112,5 +139,5 @@ export function GhostButton({
 }
 
 export function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rounded-2xl border border-line bg-white p-7 ${className}`}>{children}</div>;
+  return <div className={`rounded-xl border border-line bg-white p-7 ${className}`}>{children}</div>;
 }

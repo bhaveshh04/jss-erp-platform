@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Eyebrow, SectionHeading, PrimaryButton } from "@/components/ui/marketing-ui";
+import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContentMany } from "@/lib/site-content-db";
 
 // Always server-render fresh — reads live content edited from Portal → Website content.
@@ -21,19 +21,11 @@ export default async function About() {
 
   return (
     <>
-      <section className="bg-navy text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-8 sm:py-28">
-          <Eyebrow dark>About {company.name}</Eyebrow>
-          <h1 className="mt-5 font-heading text-4xl font-bold leading-tight sm:text-5xl">
-            Integrating business with technology
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            We&apos;re a {company.location}-based ERP and software development
-            partner, building systems for manufacturing, textile and process
-            industries across {company.serves}.
-          </p>
-        </div>
-      </section>
+<PageHero
+  eyebrow={`About ${company.name}`}
+  title="Integrating business with technology"
+  description={`We're a ${company.location}-based ERP and software development partner, building systems for manufacturing, textile and process industries across ${company.serves}.`}
+/>
 
       {/* WHO WE ARE */}
       <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
@@ -48,11 +40,11 @@ export default async function About() {
           </div>
 
           <div className="grid gap-6">
-            <div className="rounded-2xl border border-line bg-white p-8">
+            <div className="	rounded-xl border border-line bg-white p-8">
               <h3 className="font-heading text-xl font-semibold text-navy">Our Vision</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-slate">{about.vision}</p>
             </div>
-            <div className="rounded-2xl border border-line bg-white p-8">
+            <div className="	rounded-xl border border-line bg-white p-8">
               <h3 className="font-heading text-xl font-semibold text-navy">Our Mission</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-slate">{about.mission}</p>
             </div>
@@ -61,12 +53,12 @@ export default async function About() {
       </section>
 
       {/* WHY CHOOSE US */}
-      <section className="bg-navy-2 py-20 text-white sm:py-24">
+      <section className="bg-navy py-20 text-white sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading dark eyebrow="Why choose us" title="What an engagement with us actually looks like" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {whyChooseUs.items.map((w) => (
-              <div key={w.title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+              <div key={w.title} className="	rounded-xl border border-white/10 bg-white/[0.03] p-6">
                 <h3 className="font-heading text-base font-semibold text-white">{w.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/60">{w.description}</p>
               </div>
@@ -80,8 +72,8 @@ export default async function About() {
         <SectionHeading eyebrow="Core values" title="The five I's" align="center" />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {values.items.map((v) => (
-            <div key={v.title} className="rounded-2xl border border-line bg-white p-6 text-center">
-              <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-navy font-heading text-lg font-bold text-gold">
+            <div key={v.title} className="	rounded-xl border border-line bg-white p-6 text-center">
+              <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg bg-navy font-heading text-lg font-semibold text-white">
                 {v.letter}
               </div>
               <h3 className="mt-4 font-heading text-base font-semibold text-navy">{v.title}</h3>
@@ -101,7 +93,7 @@ export default async function About() {
                 Led from the floor, not the boardroom
               </h2>
             </div>
-            <div className="rounded-2xl border border-line bg-white p-8">
+            <div className="	rounded-xl border border-line bg-white p-8">
               <h3 className="font-heading text-xl font-semibold text-navy">{about.leaderName}</h3>
               <p className="mt-1 font-sans text-xs font-semibold uppercase tracking-wide text-gold-dim">
                 {about.leaderTitle}

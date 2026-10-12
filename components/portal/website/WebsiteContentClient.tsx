@@ -40,6 +40,24 @@ export default function WebsiteContentClient() {
           <HeroSectionEditor />
         </CollapsibleSection>
 
+        <CollapsibleSection
+          title="Homepage slider"
+          description="Slides shown under the hero. Add text, an image, or both. Delete every slide to hide the slider."
+        >
+          <ListSectionEditor
+            section="slider"
+            arrayKey="slides"
+            itemLabel="slide"
+            fields={[
+              { key: "title", label: "Title" },
+              { key: "text", label: "Text", type: "textarea" },
+              { key: "imageUrl", label: "Background image (optional)", type: "image" },
+              { key: "ctaLabel", label: "Button text (optional)" },
+              { key: "ctaHref", label: "Button link (optional) — e.g. /contact or https://…" },
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="About page" description="Who we are, vision, mission, and leadership bio.">
           <FlatSectionEditor
             section="about"

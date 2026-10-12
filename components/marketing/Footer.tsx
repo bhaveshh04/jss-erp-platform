@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import type { CompanySection, CategoriesSection } from "@/lib/site-sections";
-
+import Image from "next/image";
 function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -31,6 +31,22 @@ function YoutubeIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+// const staticColumn = {
+//   title: "Company",
+//   links: [
+//     { to: "/about", label: "About us" },
+//     { to: "/services", label: "Services" },
+//     { to: "/portfolio", label: "Portfolio" },
+//     { to: "/careers", label: "Careers" },
+//     { to: "/contact", label: "Contact" },
+//   ],
+// };
+
+// type Props = {
+//   company: CompanySection;
+//   products: CategoriesSection["items"];
+// };
+
 const staticColumn = {
   title: "Company",
   links: [
@@ -38,6 +54,7 @@ const staticColumn = {
     { to: "/services", label: "Services" },
     { to: "/portfolio", label: "Portfolio" },
     { to: "/careers", label: "Careers" },
+    { to: "/contact", label: "Contact" },
   ],
 };
 
@@ -52,36 +69,34 @@ export default function Footer({ company, products }: Props) {
     { title: "Products", links: products.map((p) => ({ to: `/services#${p.slug}`, label: p.name })) },
   ];
 
+  const socials = [
+    { href: company.social.linkedin, Icon: LinkedinIcon, label: "LinkedIn" },
+    { href: company.social.facebook, Icon: FacebookIcon, label: "Facebook" },
+    { href: company.social.twitter, Icon: TwitterIcon, label: "X / Twitter" },
+    { href: company.social.youtube, Icon: YoutubeIcon, label: "YouTube" },
+  ];
+
   return (
     <footer className="bg-navy text-white">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
           <div>
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-md bg-gold font-heading text-base font-bold text-navy">
-                JS
-              </span>
-              <span className="font-heading text-base font-semibold text-white">{company.name}</span>
+            <Link href="/" className="inline-block rounded-lg bg-white px-4 py-3" aria-label={company.name}>
+              <Image src="/logo.png" alt={company.name} width={762} height={327} className="h-12 w-auto" />
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-              {company.tagline} — a Pune-based ERP implementation and software
-              development partner serving manufacturing, textile and process
-              industries across {company.serves}.
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/65">
+              {company.tagline} — a Pune-based ERP implementation and software development partner serving
+              manufacturing, textile and process industries across {company.serves}.
             </p>
-            <div className="mt-5 flex gap-3">
-              {[
-                { href: company.social.linkedin, Icon: LinkedinIcon },
-                { href: company.social.facebook, Icon: FacebookIcon },
-                { href: company.social.twitter, Icon: TwitterIcon },
-                { href: company.social.youtube, Icon: YoutubeIcon },
-              ].map(({ href, Icon }, i) => (
+            <div className="mt-6 flex gap-2.5">
+              {socials.map(({ href, Icon, label }) => (
                 <a
-                  key={i}
+                  key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-gold hover:text-gold"
-                  aria-label="Social link"
+                  className="grid h-9 w-9 place-items-center rounded-md border border-white/15 text-white/70 transition-colors hover:border-white hover:bg-white hover:text-navy"
+                  aria-label={label}
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -91,13 +106,11 @@ export default function Footer({ company, products }: Props) {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h4 className="font-sans text-xs font-semibold uppercase tracking-wider text-white/40">
-                {col.title}
-              </h4>
-              <ul className="mt-4 space-y-3">
+              <h4 className="text-sm font-semibold text-white">{col.title}</h4>
+              <ul className="mt-5 space-y-3">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <Link href={l.to} className="text-sm text-white/75 transition-colors hover:text-gold">
+                    <Link href={l.to} className="text-sm text-white/65 transition-colors hover:text-white">
                       {l.label}
                     </Link>
                   </li>
@@ -107,23 +120,21 @@ export default function Footer({ company, products }: Props) {
           ))}
 
           <div>
-            <h4 className="font-sans text-xs font-semibold uppercase tracking-wider text-white/40">
-              Get in touch
-            </h4>
-            <ul className="mt-4 space-y-3 text-sm text-white/75">
-              <li className="flex items-start gap-2.5">
+            <h4 className="text-sm font-semibold text-white">Get in touch</h4>
+            <ul className="mt-5 space-y-4 text-sm text-white/65">
+              <li className="flex items-start gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                <a href={`tel:${company.phone.replace(/\s/g, "")}`} className="hover:text-gold">
+                <a href={`tel:${company.phone.replace(/\s/g, "")}`} className="transition-colors hover:text-white">
                   {company.phone}
                 </a>
               </li>
-              <li className="flex items-start gap-2.5">
+              <li className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                <a href={`mailto:${company.email}`} className="break-all hover:text-gold">
+                <a href={`mailto:${company.email}`} className="break-all transition-colors hover:text-white">
                   {company.email}
                 </a>
               </li>
-              <li className="flex items-start gap-2.5">
+              <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
                 <span>{company.address}</span>
               </li>
@@ -131,11 +142,13 @@ export default function Footer({ company, products }: Props) {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center">
-          <p className="font-sans text-xs text-white/40">
+        <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 sm:flex-row sm:items-center">
+          <p className="text-xs text-white/50">
             © {new Date().getFullYear()} {company.name}. All rights reserved.
           </p>
-          <p className="font-sans text-xs text-white/40">{company.tagline} · {company.location}</p>
+          <p className="text-xs text-white/50">
+            {company.tagline} · {company.location}
+          </p>
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
-import { Eyebrow, SectionHeading, PrimaryButton } from "@/components/ui/marketing-ui";
+import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContentMany } from "@/lib/site-content-db";
 
 // Always server-render fresh — reads live content edited from Portal → Website content.
@@ -23,26 +23,18 @@ export default async function Services() {
 
   return (
     <>
-      <section className="bg-navy text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-8 sm:py-28">
-          <Eyebrow dark>What we build</Eyebrow>
-          <h1 className="mt-5 font-heading text-4xl font-bold leading-tight sm:text-5xl">
-            Products and solutions, mapped to how you work
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            Every product below reads and writes to the same core, so dashboards
-            and reports can span inventory, production, sales and HR instead of
-            stopping at one department.
-          </p>
-        </div>
-      </section>
+    <PageHero
+  eyebrow="What we build"
+  title="Products and solutions, mapped to how you work"
+  description="Every product below reads and writes to the same core, so dashboards and reports can span inventory, production, sales and HR instead of stopping at one department."
+/>
 
       {/* PRODUCTS */}
       <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
         <SectionHeading eyebrow="Products" title="ERP, HRMS, CRM & IoT" />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {products.items.map((p) => (
-            <div key={p.slug} id={p.slug} className="scroll-mt-24 rounded-2xl border border-line bg-white p-7">
+            <div key={p.slug} id={p.slug} className="scroll-mt-24 	rounded-xl border border-line bg-white p-7">
               <h3 className="font-heading text-xl font-semibold text-navy">{p.name}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate">{p.summary}</p>
               <ul className="mt-5 space-y-2.5">
@@ -59,12 +51,12 @@ export default async function Services() {
       </section>
 
       {/* SOLUTIONS */}
-      <section className="bg-navy-2 py-20 text-white sm:py-24">
+      <section className="bg-navy py-20 text-white sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading dark eyebrow="Solutions" title="AI, Data Analytics & Process Automation" />
           <div className="mt-14 grid gap-6 sm:grid-cols-3">
             {solutions.items.map((s) => (
-              <div key={s.slug} id={s.slug} className="scroll-mt-24 rounded-2xl border border-white/10 bg-white/[0.03] p-7">
+              <div key={s.slug} id={s.slug} className="scroll-mt-24 	rounded-xl border border-white/10 bg-white/[0.03] p-7">
                 <h3 className="font-heading text-lg font-semibold text-white">{s.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/60">{s.summary}</p>
               </div>
@@ -82,7 +74,7 @@ export default async function Services() {
         />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {modules.items.map((m) => (
-            <div key={m.group} className="rounded-2xl border border-line bg-white p-7">
+            <div key={m.group} className="	rounded-xl border border-line bg-white p-7">
               <h3 className="font-heading text-lg font-semibold text-navy">{m.group}</h3>
               <ul className="mt-4 space-y-2.5">
                 {m.items.map((item) => (
@@ -103,7 +95,7 @@ export default async function Services() {
           <SectionHeading eyebrow="Beyond ERP" title="AI & ML, Data Analytics, IIoT & Custom Software" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {services.items.map((s) => (
-              <div key={s.title} className="rounded-2xl border border-line bg-white p-7">
+              <div key={s.title} className="	rounded-xl border border-line bg-white p-7">
                 <h3 className="font-heading text-lg font-semibold text-navy">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate">{s.description}</p>
               </div>

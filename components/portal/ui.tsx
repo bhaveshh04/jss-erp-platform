@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 
 export function Card({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
-  return <div className={`rounded-2xl border border-line bg-white p-6 ${className}`}>{children}</div>;
+  return <div className={`	rounded-xl border border-line bg-white p-6 ${className}`}>{children}</div>;
 }
 
 export function StatCard({ label, value, hint }: { label: string; value: React.ReactNode; hint?: string }) {
@@ -89,7 +89,7 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+      <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto 	rounded-xl bg-white p-6 shadow-2xl sm:p-8">
         <div className="mb-5 flex items-center justify-between">
           <h3 className="font-heading text-xl font-semibold text-navy">{title}</h3>
           <button onClick={onClose} className="text-slate hover:text-navy" aria-label="Close">

@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Save, Plus, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import { Button, TextField, TextArea } from "../ui";
 import { useSectionContent } from "./useSectionContent";
+import ImageField from "./ImageField";
 import type { SectionKey } from "@/lib/site-sections";
 
 export type ItemField = {
   key: string;
   label: string;
-  type?: "text" | "textarea" | "stringlist" | "number";
+  type?: "text" | "textarea" | "stringlist" | "number" | "image";
   placeholder?: string;
 };
 
@@ -60,6 +61,14 @@ export default function ListSectionEditor<K extends SectionKey>({
     setItems((prev) => (prev ? prev.map((it, i) => (i === index ? next : it)) : prev));
   }
 
+  // Merges into the *latest* row state, so a slow image upload finishing
+  // can't overwrite text the user typed into other fields in the meantime.
+  function patchItem(index: number, patch: ObjectItem) {
+    setItems((prev) =>
+      prev ? prev.map((it, i) => (i === index ? { ...(it as ObjectItem), ...patch } : it)) : prev
+    );
+  }
+
   function removeItem(index: number) {
     setItems((prev) => (prev ? prev.filter((_, i) => i !== index) : prev));
   }
@@ -101,7 +110,7 @@ export default function ListSectionEditor<K extends SectionKey>({
                 ) : (
                   <div className="grid gap-3 sm:grid-cols-2">
                     {(fields ?? []).map((f) => (
-                      <div key={f.key} className={f.type === "textarea" || f.type === "stringlist" ? "sm:col-span-2" : ""}>
+                      <div key={f.key} className={f.type === "textarea" || f.type === "stringlist" || f.type === "image" ? "sm:col-span-2" : ""}>
                         {f.type === "textarea" ? (
                           <TextArea
                             label={f.label}
@@ -122,6 +131,12 @@ export default function ListSectionEditor<K extends SectionKey>({
                                 [f.key]: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
                               })
                             }
+                          />
+                        ) : f.type === "image" ? (
+                          <ImageField
+                            label={f.label}
+                            value={String((item as ObjectItem)[f.key] ?? "")}
+                            onChange={(url) => patchItem(index, { [f.key]: url })}
                           />
                         ) : f.type === "number" ? (
                           <TextField

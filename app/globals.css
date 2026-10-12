@@ -1,23 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #101a33;
-  --color-navy-2: #16224a;
-  --color-navy-3: #1d2c5c;
-  --color-paper: #f7f8fb;
-  --color-paper-dim: #eef0f6;
-  --color-gold: #d5a237;
-  --color-gold-dim: #b3852a;
-  --color-line: #e2e5ee;
-  --color-ink: #101a33;
-  --color-slate: #5c6478;
+  /* One accent (logo red) + navy + neutrals. Nothing else. */
+  --color-brand: #d7141f;
+  --color-brand-dark: #b50f18;
 
-  --font-heading: "Sora", "Inter", sans-serif;
-  --font-sans: "Inter", sans-serif;
+  --color-navy: #0b1f4b;
+  --color-navy-2: #102a63;
+  --color-navy-3: #183675;
+
+  --color-paper: #ffffff;
+  --color-paper-dim: #f5f7fa;
+  --color-line: #e3e7ee;
+  --color-ink: #0b1f4b;
+  --color-slate: #526071;
+
+  /* Legacy names so older pages/portal re-theme automatically:
+     gold     -> soft red, readable on navy backgrounds
+     gold-dim -> brand red, used on white backgrounds */
+  --color-gold: #ff7a82;
+  --color-gold-dim: #d7141f;
+}
+
+/* Fonts come from next/font in app/layout.tsx */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -25,41 +38,42 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--color-gold);
-  color: var(--color-navy);
+  background: var(--color-brand);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold-dim);
+  outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
 
 .font-heading {
   font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }
 
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.thin-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+.thin-scroll::-webkit-scrollbar-thumb { background-color: var(--color-line); border-radius: 999px; }
+
+/* kept for portal pages that still use the dotted grid */
 .bp-grid {
-  background-image: radial-gradient(circle, rgba(247, 248, 251, 0.14) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Simple scrollbar styling for the portal's data tables */
-.thin-scroll::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-.thin-scroll::-webkit-scrollbar-thumb {
-  background-color: var(--color-line);
-  border-radius: 999px;
-}
+@keyframes slider-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes slide-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;

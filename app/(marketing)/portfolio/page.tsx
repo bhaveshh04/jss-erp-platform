@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Eyebrow, SectionHeading, PrimaryButton } from "@/components/ui/marketing-ui";
+import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContent } from "@/lib/site-content-db";
 
 // Always server-render fresh — reads live content edited from Portal → Website content.
@@ -16,25 +16,18 @@ export default async function Portfolio() {
 
   return (
     <>
-      <section className="bg-navy text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-8 sm:py-28">
-          <Eyebrow dark>Portfolio</Eyebrow>
-          <h1 className="mt-5 font-heading text-4xl font-bold leading-tight sm:text-5xl">
-            Representative implementations
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            A sample of the kind of problems our implementations are built to solve —
-            illustrative of the process, not an exhaustive client list.
-          </p>
-        </div>
-      </section>
+    <PageHero
+  eyebrow="Portfolio"
+  title="Representative implementations"
+  description="A sample of the kind of problems our implementations are built to solve — illustrative of the process, not an exhaustive client list."
+/>
 
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
         <div className="grid gap-8">
           {caseStudies.items.map((c) => (
-            <div key={c.title} className="grid gap-6 rounded-3xl border border-line bg-white p-8 sm:p-10 lg:grid-cols-[1fr_2fr]">
+            <div key={c.title} className="grid gap-6 rounded-xl border border-line bg-white p-8 sm:p-10 lg:grid-cols-[1fr_2fr]">
               <div>
-                <span className="rounded-full bg-navy/5 px-3 py-1 font-sans text-xs font-semibold uppercase tracking-wide text-navy/70">
+                <span className="rounded-md bg-navy/5 px-3 py-1 font-sans text-xs font-semibold uppercase tracking-wide text-navy/70">
                   {c.industry}
                 </span>
                 <h2 className="mt-4 font-heading text-2xl font-semibold leading-tight text-navy">{c.title}</h2>

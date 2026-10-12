@@ -116,7 +116,7 @@ export default function DashboardClient() {
               <ul className="divide-y divide-line">
                 {summary.recentActivity.map((a) => (
                   <li key={a.id} className="flex items-start gap-3 py-3">
-                    <span className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-navy/5 text-navy">
+                    <span className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-md bg-navy/5 text-navy">
                       {iconFor(a.type)}
                     </span>
                     <div>

@@ -42,7 +42,7 @@ export default function CareersApplyForm({ positions }: { positions: { title: st
 
   if (status === "done") {
     return (
-      <div className="flex flex-col items-center justify-center rounded-3xl border border-line bg-white p-10 text-center">
+      <div className="flex flex-col items-center justify-center rounded-xl border border-line bg-white p-10 text-center">
         <CheckCircle2 className="h-12 w-12 text-gold-dim" strokeWidth={1.5} />
         <h3 className="mt-5 font-heading text-2xl font-semibold text-navy">Application received</h3>
         <p className="mt-2 max-w-sm text-sm text-slate">
@@ -54,7 +54,7 @@ export default function CareersApplyForm({ positions }: { positions: { title: st
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-3xl border border-line bg-white p-6 sm:p-10">
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line bg-white p-6 sm:p-10">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-navy">
@@ -151,7 +151,7 @@ export default function CareersApplyForm({ positions }: { positions: { title: st
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5 disabled:opacity-60 sm:w-fit"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
       >
         {status === "submitting" ? "Submitting…" : "Submit application"} <Send className="h-4 w-4" strokeWidth={2.25} />
       </button>

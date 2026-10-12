@@ -111,9 +111,27 @@ export const moduleGroupSchema = z.object({
 export const modulesSectionSchema = z.object({ items: z.array(moduleGroupSchema).min(1) });
 export type ModulesSection = z.infer<typeof modulesSectionSchema>;
 
+// Homepage slider. Every field is optional on its own, but a slide must have
+// at least a title, some text, or an image so the owner can't save an empty one.
+export const slideSchema = z
+  .object({
+    title: z.string().max(120).optional().default(""),
+    text: z.string().max(400).optional().default(""),
+    // Either an uploaded image ("/media/<id>") or any pasted https:// URL.
+    imageUrl: z.string().max(2000).optional().default(""),
+    ctaLabel: z.string().max(40).optional().default(""),
+    ctaHref: z.string().max(500).optional().default(""),
+  })
+  .refine((slide) => slide.title.trim() || slide.text.trim() || slide.imageUrl.trim(), {
+    message: "Each slide needs a title, some text, or an image.",
+  });
+export const sliderSectionSchema = z.object({ slides: z.array(slideSchema).max(12) });
+export type SliderSection = z.infer<typeof sliderSectionSchema>;
+
 export const SECTION_SCHEMAS = {
   company: companySectionSchema,
   hero: heroSectionSchema,
+  slider: sliderSectionSchema,
   about: aboutSectionSchema,
   products: categoriesSectionSchema,
   solutions: categoriesSectionSchema,
@@ -132,6 +150,7 @@ export const SECTION_KEYS = Object.keys(SECTION_SCHEMAS) as SectionKey[];
 export type SectionDataMap = {
   company: CompanySection;
   hero: HeroSection;
+  slider: SliderSection;
   about: AboutSection;
   products: CategoriesSection;
   solutions: CategoriesSection;
@@ -147,6 +166,7 @@ export type SectionDataMap = {
 export const SECTION_LABELS: Record<SectionKey, string> = {
   company: "Company & contact details",
   hero: "Homepage hero",
+  slider: "Homepage slider",
   about: "About page",
   products: "Products (nav + Services page)",
   solutions: "Solutions (nav + Services page)",
@@ -191,6 +211,38 @@ export const SECTION_DEFAULTS: SectionDataMap = {
       { value: 50, suffix: "+", label: "Team members" },
       { value: 100, suffix: "%", label: "Client satisfaction" },
       { value: 8, suffix: "+", label: "Years in ERP" },
+    ],
+  },
+  slider: {
+    slides: [
+      {
+        title: "200% Customized ERP",
+        text: "Inventory, billing, production and accounts — built around how your floor actually runs, not a one-size template.",
+        imageUrl: "",
+        ctaLabel: "Explore ERP",
+        ctaHref: "/services#erp",
+      },
+      {
+        title: "HRMS, Attendance & Payroll",
+        text: "Biometric attendance, statutory payroll and employee self-service in one connected system.",
+        imageUrl: "",
+        ctaLabel: "See HRMS",
+        ctaHref: "/services#hrms",
+      },
+      {
+        title: "Process Automation",
+        text: "Approvals, alerts and repetitive back-office work handled automatically, so your team can focus on decisions.",
+        imageUrl: "",
+        ctaLabel: "Our solutions",
+        ctaHref: "/services",
+      },
+      {
+        title: "Custom Software, Built to Last",
+        text: "Web and mobile applications for the processes an off-the-shelf module was never designed to cover.",
+        imageUrl: "",
+        ctaLabel: "Talk to us",
+        ctaHref: "/contact",
+      },
     ],
   },
   about: {
