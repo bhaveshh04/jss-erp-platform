@@ -4,7 +4,7 @@ import { SECTION_DEFAULTS, SECTION_KEYS } from "../lib/site-sections";
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main() {     
   const ownerEmail = (process.env.OWNER_EMAIL || "owner@jssinnovative.in").toLowerCase();
   const ownerName = process.env.OWNER_NAME || "Owner";
   const ownerPassword = process.env.OWNER_PASSWORD || "ChangeMe123!";
