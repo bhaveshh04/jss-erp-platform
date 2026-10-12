@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,8 +17,9 @@ model ActivityLog {
   @@index([createdAt], map: "ActivityLog_createdAt_idx")
   @@map("activitylog")
 }
+
 model Attendance {
-  id        String    @id
+  id        String    @id @default(cuid())
   userId    String
   date      DateTime  @db.Date
   inTime    DateTime?
@@ -28,7 +30,7 @@ model Attendance {
   outLng    Float?
   createdAt DateTime  @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Attendance_userId_fkey")
+user User @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Attendance_userId_fkey")
 
   @@unique([userId, date], map: "Attendance_userId_date_key")
   @@index([date], map: "Attendance_date_idx")
@@ -36,7 +38,7 @@ model Attendance {
 }
 
 model ContactMessage {
-  id        String   @id
+  id        String   @id @default(cuid())
   name      String
   email     String
   phone     String?
@@ -49,7 +51,7 @@ model ContactMessage {
 }
 
 model JobApplication {
-  id        String   @id
+  id        String   @id @default(cuid())
   name      String
   email     String
   phone     String?
@@ -62,7 +64,7 @@ model JobApplication {
 }
 
 model LeaveRequest {
-  id           String      @id
+  id           String      @id @default(cuid())
   userId       String
   fromDate     DateTime    @db.Date
   toDate       DateTime    @db.Date
@@ -70,10 +72,11 @@ model LeaveRequest {
   status       LeaveStatus @default(PENDING)
   reviewedById String?
   createdAt    DateTime    @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime    @updatedAt
 
-  user       User  @relation("LeaveRequestUser", fields: [userId], references: [id], onDelete: Cascade, map: "LeaveRequest_userId_fkey")
-  reviewedBy User? @relation("LeaveRequestReviewer", fields: [reviewedById], references: [id], map: "LeaveRequest_reviewedById_fkey")
+user User @relation("LeaveRequestUser", fields: [userId], references: [id], onDelete: Cascade, map: "LeaveRequest_userId_fkey")
+
+reviewedBy User? @relation("LeaveRequestReviewer", fields: [reviewedById], references: [id], map: "LeaveRequest_reviewedById_fkey")
 
   @@index([reviewedById], map: "LeaveRequest_reviewedById_fkey")
   @@index([status], map: "LeaveRequest_status_idx")
@@ -87,7 +90,7 @@ model OfficeSettings {
   lat          Float
   lng          Float
   radiusMeters Int      @default(200)
-  updatedAt    DateTime
+  updatedAt    DateTime @updatedAt
 
   @@map("officesettings")
 }
@@ -96,13 +99,13 @@ model SiteContent {
   id        String   @id @default(cuid())
   section   String   @unique(map: "SiteContent_section_key")
   data      String   @db.LongText
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 
   @@map("sitecontent")
 }
 
 model Task {
-  id           String       @id
+  id           String       @id @default(cuid())
   title        String
   description  String?
   priority     TaskPriority @default(MEDIUM)
@@ -111,10 +114,11 @@ model Task {
   assignedToId String
   createdById  String
   createdAt    DateTime     @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime     @updatedAt
 
-  assignedTo User @relation("TaskAssignedTo", fields: [assignedToId], references: [id], onDelete: Cascade, map: "Task_assignedToId_fkey")
-  createdBy  User @relation("TaskCreatedBy", fields: [createdById], references: [id], map: "Task_createdById_fkey")
+ assignedTo User @relation("TaskAssignedTo", fields: [assignedToId], references: [id], onDelete: Cascade, map: "Task_assignedToId_fkey")
+
+createdBy User @relation("TaskCreatedBy", fields: [createdById], references: [id], map: "Task_createdById_fkey")
 
   @@index([assignedToId], map: "Task_assignedToId_idx")
   @@index([createdById], map: "Task_createdById_fkey")
@@ -123,7 +127,7 @@ model Task {
 }
 
 model User {
-  id           String   @id
+  id           String   @id @default(cuid())
   name         String
   email        String   @unique(map: "User_email_key")
   passwordHash String
@@ -132,7 +136,7 @@ model User {
   active       Boolean  @default(true)
   mustResetPw  Boolean  @default(false)
   createdAt    DateTime @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime @updatedAt
 
   attendance     Attendance[]
   leaveRequests  LeaveRequest[] @relation("LeaveRequestUser")
