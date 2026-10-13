@@ -57,10 +57,10 @@ export default function ClockInOutWidget({
   }
 
   return (
-    <Card className="border-gold/30 bg-gold/[0.04]">
+    <Card className="border-brand/20 bg-brand/[0.04]">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy text-gold">
+          <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy text-white">
             <MapPin className="h-5 w-5" />
           </span>
           <div>

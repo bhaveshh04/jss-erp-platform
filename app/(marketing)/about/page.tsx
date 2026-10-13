@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContentMany } from "@/lib/site-content-db";
+import { pageMetadata } from "@/lib/seo";
+export const revalidate = 300;
 
-// Always server-render fresh — reads live content edited from Portal → Website content.
-export const dynamic = "force-dynamic";
-
-export const metadata: Metadata = {
-  title: "About Us",
+export const metadata = pageMetadata({
+  title: "About Us — ERP Partner in Pune",
   description:
-    "JSS Innovative Solutions is a Pune-based ERP implementation partner — our story, vision, mission and the values behind every 200% customised build.",
-};
-
+    "Meet JSS Innovative Solutions, a Pune-based ERP implementation partner. Our story, vision, mission and the values behind every 200% customised build.",
+  path: "/about",
+});
 export default async function About() {
   const { company, about, values, whyChooseUs } = await getSiteContentMany([
     "company",
@@ -28,7 +27,7 @@ export default async function About() {
 />
 
       {/* WHO WE ARE */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <Eyebrow>Who we are</Eyebrow>
@@ -53,7 +52,7 @@ export default async function About() {
       </section>
 
       {/* WHY CHOOSE US */}
-      <section className="bg-navy py-20 text-white sm:py-24">
+      <section className="bg-navy py-14 text-white sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading dark eyebrow="Why choose us" title="What an engagement with us actually looks like" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
@@ -68,7 +67,7 @@ export default async function About() {
       </section>
 
       {/* VALUES */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <SectionHeading eyebrow="Core values" title="The five I's" align="center" />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {values.items.map((v) => (
@@ -84,7 +83,7 @@ export default async function About() {
       </section>
 
       {/* LEADERSHIP */}
-      <section className="border-y border-line bg-paper-dim py-20 sm:py-24">
+      <section className="border-y border-line bg-paper-dim py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:items-center">
             <div>

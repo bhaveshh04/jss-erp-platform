@@ -3,9 +3,24 @@ import { Eyebrow, SectionHeading, PrimaryButton, GhostButton } from "@/component
 import { StatCounter } from "@/components/ui/StatCounter";
 import HeroSlider from "@/components/marketing/HeroSlider";
 import { getSiteContentMany } from "@/lib/site-content-db";
+// import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
+// export const metadata = pageMetadata({
+//   title: "ERP, HRMS, CRM & IoT Solutions",
+//   description:
+//     "Customised ERP, HRMS, CRM and IoT products plus AI, data analytics and process automation for manufacturing, textile and process industries in India.",
+//   path: "/services",
+// });
+// export const revalidate = 300;
+
+export const metadata = pageMetadata({
+  title: { absolute: DEFAULT_TITLE },
+  description: DEFAULT_DESCRIPTION,
+  path: "/",
+});
 const whyIcons = [Compass, Layers, TrendingUp, Gauge, ShieldCheck];
 
 export default async function Home() {
@@ -23,15 +38,11 @@ export default async function Home() {
   return (
     <>
       {/* SLIDER — full width, aligned to the navbar */}
-      {slider.slides.length > 0 && (
-        <section aria-label="Highlights">
-          <HeroSlider slides={slider.slides} />
-        </section>
-      )}
+      {slider.slides.length > 0 && <HeroSlider slides={slider.slides} />}
 
       {/* INTRO + STATS */}
       <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:gap-16">
             <div>
               <Eyebrow>
@@ -64,7 +75,7 @@ export default async function Home() {
 
       {/* ABOUT TEASER */}
       <section className="border-y border-line bg-paper-dim">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
               <Eyebrow>Who we are</Eyebrow>
@@ -94,7 +105,7 @@ export default async function Home() {
 
       {/* CORE SERVICES */}
       <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <SectionHeading
             eyebrow="What we build"
             title="Core services"
@@ -124,7 +135,7 @@ export default async function Home() {
 
       {/* WHY CHOOSE US — the one navy band */}
       <section className="bg-navy text-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <SectionHeading dark eyebrow="Why choose us" title="Five reasons implementations stick with us" />
           <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
             {whyChooseUs.items.map((w, i) => {
@@ -145,7 +156,7 @@ export default async function Home() {
 
       {/* CORE VALUES */}
       <section className="bg-paper-dim">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
           <SectionHeading eyebrow="Core values" title="The five I's behind every implementation" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {values.items.map((v) => (

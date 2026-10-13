@@ -15,7 +15,7 @@ export default async function LoginPage() {
   if (session) redirect("/portal");
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-dvh">
       <div className="relative hidden w-1/2 flex-col justify-between bg-navy p-12 text-white lg:flex">
         <div className="bp-grid absolute inset-0 opacity-50" aria-hidden="true" />
        <Link href="/" className="relative inline-block w-fit rounded-lg bg-white px-4 py-3">

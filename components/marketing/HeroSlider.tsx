@@ -1,24 +1,8 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type KeyboardEvent,
-  type FocusEvent,
-  type TouchEvent,
-} from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Boxes,
-  ChevronLeft,
-  ChevronRight,
-  Code2,
-  Factory,
-  Workflow,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export type Slide = {
   title: string;
@@ -28,355 +12,534 @@ export type Slide = {
   ctaHref: string;
 };
 
-const AUTOPLAY_MS = 6500;
-const SWIPE_THRESHOLD = 50;
+const AUTOPLAY_MS = 7000;
+const SWIPE_PX = 48;
 
-const visuals = [
-  { Icon: Factory, label: "Manufacturing", number: "01" },
-  { Icon: Boxes, label: "Connected ERP", number: "02" },
-  { Icon: Workflow, label: "Process automation", number: "03" },
-  { Icon: Code2, label: "Custom software", number: "04" },
-];
+/* ------------------------------------------------------------------ */
+/*  Product-preview illustrations (pure SVG, scale to any screen)      */
+/* ------------------------------------------------------------------ */
 
-function SlideVisual({
-  slide,
-  index,
-}: {
-  slide: Slide;
-  index: number;
-}) {
-  const visual = visuals[index % visuals.length];
-  const Icon = visual.Icon;
+const N = "#0B1F4B";
+const R = "#D7141F";
+const G = "#7B8598";
+const L = "#E3E7EE";
+const T = "#D5DCEB";
+const BG = "#F5F7FA";
 
+function Frame({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
   return (
-    <div className="relative min-h-[270px] overflow-hidden rounded-2xl border border-white/10 bg-[#10294e] shadow-2xl shadow-black/20 sm:min-h-[340px] lg:min-h-[390px]">
-      {slide.imageUrl ? (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={slide.imageUrl}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover"
-            loading={index === 0 ? "eager" : "lazy"}
-            draggable={false}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07172f]/90 via-[#07172f]/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/65">
-              JSS Innovative Solutions
-            </p>
-            <p className="mt-2 max-w-sm text-xl font-semibold leading-snug text-white sm:text-2xl">
-              Technology designed around the way your business works.
-            </p>
-          </div>
-        </>
-      ) : (
-        <>
-          <div
-            className="absolute inset-0 opacity-40"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 75% 20%, rgba(215,20,31,.45), transparent 30%), radial-gradient(circle at 20% 85%, rgba(70,120,190,.35), transparent 35%)",
-            }}
-          />
-
-          <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border border-white/10" />
-          <div className="absolute -right-5 -top-9 h-52 w-52 rounded-full border border-white/10" />
-          <div className="absolute right-8 top-8 h-32 w-32 rounded-full border border-[#e53b45]/50" />
-
-          <div className="relative flex h-full min-h-[270px] flex-col justify-between p-5 sm:min-h-[340px] sm:p-8 lg:min-h-[390px]">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/50 sm:text-xs">
-                  JSS / TECHNOLOGY
-                </p>
-                <p className="mt-1 text-sm font-medium text-white/80">
-                  Built for your workflow
-                </p>
-              </div>
-              <div className="grid h-12 w-12 place-items-center rounded-xl border border-white/15 bg-white/5">
-                <Icon className="h-6 w-6 text-[#ff777e]" strokeWidth={1.6} />
-              </div>
-            </div>
-
-            <div className="relative mx-auto my-7 w-full max-w-sm">
-              <div className="absolute left-1/2 top-8 h-[calc(100%-64px)] w-px -translate-x-1/2 bg-gradient-to-b from-[#ff777e]/70 via-white/20 to-white/5" />
-
-              {[
-                { title: "Understand", sub: "Map the real process" },
-                { title: "Build", sub: visual.label },
-                { title: "Improve", sub: "Measure and refine" },
-              ].map((item, itemIndex) => (
-                <div
-                  key={item.title}
-                  className={`relative mb-3 flex items-center gap-3 rounded-xl border p-3 backdrop-blur-sm sm:p-4 ${
-                    itemIndex === 1
-                      ? "border-[#ff777e]/40 bg-[#d7141f]/15"
-                      : "border-white/10 bg-[#07172f]/65"
-                  }`}
-                >
-                  <span
-                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg text-xs font-bold ${
-                      itemIndex === 1
-                        ? "bg-[#d7141f] text-white"
-                        : "bg-white/10 text-white/75"
-                    }`}
-                  >
-                    {itemIndex + 1}
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold text-white">
-                      {item.title}
-                    </p>
-                    <p className="mt-0.5 text-xs text-white/55">
-                      {item.sub}
-                    </p>
-                  </div>
-                  {itemIndex === 1 && (
-                    <span className="ml-auto h-2 w-2 rounded-full bg-[#ff777e]" />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between border-t border-white/10 pt-4">
-              <span className="text-xs text-white/50">
-                {visual.number} / BUSINESS SYSTEMS
-              </span>
-              <span className="text-xs font-medium text-white/75">
-                Custom-fit technology
-              </span>
-            </div>
-          </div>
-        </>
+    <>
+      <rect width="560" height="400" rx="16" fill="#fff" />
+      <circle cx="26" cy="26" r="5" fill={L} />
+      <circle cx="44" cy="26" r="5" fill={L} />
+      <circle cx="62" cy="26" r="5" fill={L} />
+      <text x="88" y="30" fontSize="13" fontWeight="600" fill={N}>{title}</text>
+      {badge && (
+        <g transform={`translate(${542 - (34 + badge.length * 6.4)} 14)`}>
+          <rect width={34 + badge.length * 6.4} height="24" rx="12" fill="#FDECEE" />
+          <circle cx="15" cy="12" r="4" fill={R} />
+          <text x="26" y="16" fontSize="11" fontWeight="600" fill={R}>{badge}</text>
+        </g>
       )}
-    </div>
+      <line x1="0" y1="52" x2="560" y2="52" stroke={L} />
+      {children}
+    </>
   );
 }
 
-function SlideCta({
-  href,
-  label,
-}: {
-  href: string;
-  label: string;
-}) {
-  const classes =
-    "group inline-flex w-fit items-center gap-2 rounded-lg bg-[#d7141f] px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-red-950/20 transition-colors hover:bg-[#b50f18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
+function ErpVisual() {
+  const bars = [44, 62, 50, 78, 70, 92, 84, 108, 126];
+  const rows: [string, string, string, string][] = [
+    ["Pune plant", "Ready", "#E8ECF5", N],
+    ["Chakan unit", "Loading", "#E8ECF5", N],
+    ["Warehouse 2", "Delayed", "#FDECEE", R],
+  ];
+  return (
+    <Frame title="Production overview" badge="Live">
+      {[["Orders today", "1,248"], ["Stock accuracy", "98.2%"], ["Dispatches", "342"]].map(([l, v], i) => (
+        <g key={l} transform={`translate(${24 + i * 174} 68)`}>
+          <rect width="160" height="78" rx="10" fill={BG} stroke={L} />
+          <text x="14" y="26" fontSize="11" fill={G}>{l}</text>
+          <text x="14" y="58" fontSize="26" fontWeight="700" fill={N}>{v}</text>
+        </g>
+      ))}
+      <g transform="translate(24 162)">
+        <rect width="318" height="214" rx="10" fill="#fff" stroke={L} />
+        <text x="16" y="28" fontSize="12" fontWeight="600" fill={N}>Monthly output</text>
+        <text x="302" y="28" fontSize="11" fill={G} textAnchor="end">Units (000)</text>
+        {bars.map((h, i) => (
+          <rect key={i} x={20 + i * 32} y={190 - h} width="20" height={h} rx="3" fill={i === bars.length - 1 ? R : T} />
+        ))}
+        <line x1="14" y1="190" x2="304" y2="190" stroke={L} />
+      </g>
+      <g transform="translate(358 162)">
+        <rect width="178" height="214" rx="10" fill="#fff" stroke={L} />
+        <text x="16" y="28" fontSize="12" fontWeight="600" fill={N}>Dispatch status</text>
+        {rows.map(([name, status, bg, fg], i) => (
+          <g key={name} transform={`translate(0 ${48 + i * 52})`}>
+            <text x="16" y="14" fontSize="11" fill={N}>{name}</text>
+            <rect x="16" y="22" width="62" height="20" rx="10" fill={bg} />
+            <text x="47" y="36" fontSize="10" fontWeight="600" fill={fg} textAnchor="middle">{status}</text>
+          </g>
+        ))}
+      </g>
+    </Frame>
+  );
+}
 
-  if (href.startsWith("/") && !href.startsWith("//")) {
-    return (
-      <Link href={href} className={classes}>
-        {label}
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-      </Link>
-    );
-  }
+function HrmsVisual() {
+  const people: [string, string, boolean][] = [
+    ["Asha Patil", "Present", true],
+    ["Rohan Deshmukh", "Present", true],
+    ["Neha Kulkarni", "On leave", false],
+    ["Imran Shaikh", "Present", true],
+  ];
+  const c = 2 * Math.PI * 52;
+  return (
+    <Frame title="Attendance & payroll" badge="Today">
+      <g transform="translate(24 68)">
+        <rect width="200" height="308" rx="10" fill="#fff" stroke={L} />
+        <text x="16" y="28" fontSize="12" fontWeight="600" fill={N}>Attendance</text>
+        <g transform="translate(100 138)">
+          <circle r="52" fill="none" stroke={T} strokeWidth="14" />
+          <circle r="52" fill="none" stroke={R} strokeWidth="14" strokeLinecap="round" strokeDasharray={`${c * 0.94} ${c}`} transform="rotate(-90)" />
+          <text y="8" fontSize="26" fontWeight="700" fill={N} textAnchor="middle">94%</text>
+        </g>
+        <text x="100" y="232" fontSize="11" fill={G} textAnchor="middle">47 of 50 present</text>
+        <rect x="16" y="252" width="168" height="40" rx="8" fill={BG} stroke={L} />
+        <text x="28" y="270" fontSize="10" fill={G}>Payroll</text>
+        <text x="28" y="285" fontSize="12" fontWeight="600" fill={N}>Processed</text>
+        <circle cx="166" cy="272" r="9" fill={N} />
+        <path d="M161.5 272.2l3 3 5-5.5" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      <g transform="translate(240 68)">
+        <rect width="296" height="308" rx="10" fill="#fff" stroke={L} />
+        <text x="16" y="28" fontSize="12" fontWeight="600" fill={N}>Team today</text>
+        {people.map(([name, status, ok], i) => (
+          <g key={name} transform={`translate(0 ${48 + i * 62})`}>
+            <rect x="16" y="0" width="264" height="50" rx="8" fill={BG} />
+            <circle cx="42" cy="25" r="14" fill={ok ? N : T} />
+            <text x="42" y="29" fontSize="11" fontWeight="600" fill={ok ? "#fff" : N} textAnchor="middle">{name[0]}</text>
+            <text x="66" y="22" fontSize="12" fontWeight="600" fill={N}>{name}</text>
+            <text x="66" y="38" fontSize="10" fill={G}>Shift 9:30 – 6:30</text>
+            <rect x="208" y="15" width="62" height="20" rx="10" fill={ok ? "#E8ECF5" : "#FDECEE"} />
+            <text x="239" y="29" fontSize="10" fontWeight="600" fill={ok ? N : R} textAnchor="middle">{status}</text>
+          </g>
+        ))}
+      </g>
+    </Frame>
+  );
+}
 
-  if (/^https?:\/\//i.test(href)) {
+function AutomationVisual() {
+  const steps = ["Request raised", "Manager approval", "Purchase order", "Vendor notified"];
+  return (
+    <Frame title="Approval workflow" badge="Automated">
+      <g transform="translate(24 76)">
+        {steps.map((s, i) => {
+          const active = i === 1;
+          return (
+            <g key={s} transform={`translate(0 ${i * 62})`}>
+              {i < steps.length - 1 && <line x1="30" y1="46" x2="30" y2="70" stroke={active ? R : T} strokeWidth="2" />}
+              <rect x="0" y="0" width="360" height="48" rx="10" fill={active ? "#FDECEE" : BG} stroke={active ? R : L} />
+              <circle cx="30" cy="24" r="13" fill={active ? R : N} />
+              <text x="30" y="28" fontSize="12" fontWeight="700" fill="#fff" textAnchor="middle">{i + 1}</text>
+              <text x="56" y="28" fontSize="13" fontWeight="600" fill={N}>{s}</text>
+              <text x="344" y="28" fontSize="10" fill={active ? R : G} textAnchor="end">{["0 min", "2 min", "Auto", "Sent"][i]}</text>
+            </g>
+          );
+        })}
+        <g transform="translate(0 258)">
+          <rect width="360" height="38" rx="8" fill="#fff" stroke={L} />
+          <circle cx="20" cy="19" r="9" fill={N} />
+          <path d="M15.8 19.2l3 3 5-5.5" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          <text x="38" y="23" fontSize="11" fill={N}>Approved by R. Deshmukh · 2 min ago</text>
+        </g>
+      </g>
+      <g transform="translate(404 76)">
+        <rect width="132" height="296" rx="10" fill="#fff" stroke={L} />
+        <text x="14" y="28" fontSize="12" fontWeight="600" fill={N}>This week</text>
+        <text x="14" y="72" fontSize="30" fontWeight="700" fill={N}>186</text>
+        <text x="14" y="90" fontSize="10" fill={G}>approvals handled</text>
+        <line x1="14" y1="112" x2="118" y2="112" stroke={L} />
+        <text x="14" y="148" fontSize="30" fontWeight="700" fill={R}>0</text>
+        <text x="14" y="166" fontSize="10" fill={G}>missed follow-ups</text>
+        <line x1="14" y1="188" x2="118" y2="188" stroke={L} />
+        <text x="14" y="224" fontSize="30" fontWeight="700" fill={N}>14h</text>
+        <text x="14" y="242" fontSize="10" fill={G}>saved by the team</text>
+      </g>
+    </Frame>
+  );
+}
+
+function SoftwareVisual() {
+  return (
+    <Frame title="app.yourcompany.in">
+      <g transform="translate(24 68)">
+        <rect width="150" height="308" rx="10" fill={BG} stroke={L} />
+        {["Dashboard", "Orders", "Customers", "Reports", "Settings"].map((t, i) => (
+          <g key={t} transform={`translate(12 ${16 + i * 38})`}>
+            <rect width="126" height="30" rx="7" fill={i === 1 ? "#FDECEE" : "none"} />
+            <rect x="10" y="9" width="12" height="12" rx="3" fill={i === 1 ? R : T} />
+            <text x="32" y="20" fontSize="11" fontWeight={i === 1 ? 600 : 500} fill={i === 1 ? R : N}>{t}</text>
+          </g>
+        ))}
+      </g>
+      <g transform="translate(190 68)">
+        <rect width="346" height="308" rx="10" fill="#fff" stroke={L} />
+        <text x="16" y="28" fontSize="12" fontWeight="600" fill={N}>Orders</text>
+        <rect x="262" y="12" width="70" height="26" rx="6" fill={R} />
+        <text x="297" y="29" fontSize="11" fontWeight="600" fill="#fff" textAnchor="middle">+ New</text>
+        <rect x="16" y="52" width="314" height="26" rx="6" fill={BG} />
+        {["Order", "Customer", "Status"].map((h, i) => (
+          <text key={h} x={28 + i * 112} y="69" fontSize="10" fontWeight="600" fill={G}>{h}</text>
+        ))}
+        {[
+          ["#4021", "Shree Textiles", "Packed"],
+          ["#4020", "Apex Castings", "Shipped"],
+          ["#4019", "Nilgiri Foods", "Packed"],
+          ["#4018", "Kalyani Tools", "Pending"],
+          ["#4017", "Mehta Plastics", "Shipped"],
+        ].map(([a, b, c], i) => (
+          <g key={a} transform={`translate(0 ${92 + i * 40})`}>
+            <text x="28" y="18" fontSize="11" fontWeight="600" fill={N}>{a}</text>
+            <text x="140" y="18" fontSize="11" fill={N}>{b}</text>
+            <rect x="252" y="4" width="62" height="20" rx="10" fill={c === "Pending" ? "#FDECEE" : "#E8ECF5"} />
+            <text x="283" y="18" fontSize="10" fontWeight="600" fill={c === "Pending" ? R : N} textAnchor="middle">{c}</text>
+            <line x1="16" y1="34" x2="330" y2="34" stroke={L} />
+          </g>
+        ))}
+      </g>
+    </Frame>
+  );
+}
+
+const VISUALS = [ErpVisual, HrmsVisual, AutomationVisual, SoftwareVisual];
+const VISUAL_LABELS = ["ERP dashboard preview", "HRMS dashboard preview", "Workflow automation preview", "Custom software preview"];
+
+/* ------------------------------------------------------------------ */
+/*  CTA — handles internal, external, tel:, mailto: and #anchor links  */
+/* ------------------------------------------------------------------ */
+
+const CTA_CLASSES =
+  "group inline-flex min-h-12 w-fit items-center gap-2 rounded-md bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-navy focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
+
+function SlideCta({ href, label }: { href: string; label: string }) {
+  const h = href.trim();
+  const arrow = <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={2.25} />;
+
+  if (/^https?:\/\//i.test(h)) {
     return (
-      <a
-        href={href}
-        className={classes}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={h} className={CTA_CLASSES} target="_blank" rel="noopener noreferrer">
         {label}
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        {arrow}
       </a>
     );
   }
-
-  return null;
+  if (/^(tel:|mailto:)/i.test(h)) {
+    return (
+      <a href={h} className={CTA_CLASSES}>
+        {label}
+        {arrow}
+      </a>
+    );
+  }
+  const internal = h.startsWith("//") ? "/" : h.startsWith("/") ? h : `/${h}`;
+  return (
+    <Link href={internal} className={CTA_CLASSES}>
+      {label}
+      {arrow}
+    </Link>
+  );
 }
 
-export default function HeroSlider({ slides }: { slides: Slide[] }) {
-  const safeSlides = slides.filter(
-    (slide) => slide.title?.trim() || slide.text?.trim() || slide.imageUrl?.trim()
-  );
+/* ------------------------------------------------------------------ */
+/*  Slider                                                             */
+/* ------------------------------------------------------------------ */
 
-  const count = safeSlides.length;
+export default function HeroSlider({ slides }: { slides: Slide[] }) {
+  const items = slides.filter((s) => s.title?.trim() || s.text?.trim() || s.imageUrl?.trim());
+  const count = items.length;
+
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  const [reduced, setReduced] = useState(false);
+
+  const rootRef = useRef<HTMLElement>(null);
+  const pausedRef = useRef(false);
+  const elapsedRef = useRef(0);
+  const touchRef = useRef<{ x: number; y: number } | null>(null);
+
+  const setProgress = useCallback((value: number) => {
+    rootRef.current?.style.setProperty("--p", String(value));
+  }, []);
 
   const goTo = useCallback(
     (next: number) => {
       if (!count) return;
+      elapsedRef.current = 0;
+      setProgress(0);
       setIndex(((next % count) + count) % count);
     },
-    [count]
+    [count, setProgress]
   );
 
+  // keep the index valid if the owner removes slides
   useEffect(() => {
-    setIndex((current) => (count ? current % count : 0));
+    setIndex((i) => (count ? Math.min(i, count - 1) : 0));
   }, [count]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(media.matches);
-
+    const update = () => setReduced(media.matches);
     update();
     media.addEventListener("change", update);
-
     return () => media.removeEventListener("change", update);
   }, []);
 
+  // One animation-frame loop drives both the timer and the progress line, so
+  // they can never drift apart. Hover, focus, touch and hidden tabs pause both.
   useEffect(() => {
-    if (count < 2 || paused || reducedMotion) return;
+    if (count < 2 || reduced) return;
+    let raf = 0;
+    let last = performance.now();
 
-    const timer = window.setTimeout(
-      () => setIndex((current) => (current + 1) % count),
-      AUTOPLAY_MS
-    );
+    const tick = (now: number) => {
+      const dt = now - last;
+      last = now;
+      if (!pausedRef.current && !document.hidden) {
+        elapsedRef.current += dt;
+        if (elapsedRef.current >= AUTOPLAY_MS) {
+          elapsedRef.current = 0;
+          setIndex((i) => (i + 1) % count);
+        }
+        setProgress(Math.min(elapsedRef.current / AUTOPLAY_MS, 1));
+      }
+      raf = requestAnimationFrame(tick);
+    };
 
-    return () => window.clearTimeout(timer);
-  }, [count, index, paused, reducedMotion]);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [count, reduced, setProgress]);
 
-  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
+  function onKeyDown(e: KeyboardEvent<HTMLElement>) {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
       goTo(index - 1);
-    }
-
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
       goTo(index + 1);
     }
   }
 
-  function handleBlur(event: FocusEvent<HTMLDivElement>) {
-    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-      setPaused(false);
-    }
+  function onTouchStart(e: TouchEvent<HTMLElement>) {
+    pausedRef.current = true;
+    touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   }
 
-  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
-    if (touchStartX.current === null) return;
-
-    const delta =
-      event.changedTouches[0].clientX - touchStartX.current;
-
-    touchStartX.current = null;
-
-    if (Math.abs(delta) >= SWIPE_THRESHOLD) {
-      goTo(delta < 0 ? index + 1 : index - 1);
-    }
+  function onTouchEnd(e: TouchEvent<HTMLElement>) {
+    pausedRef.current = false;
+    const start = touchRef.current;
+    touchRef.current = null;
+    if (!start) return;
+    const dx = e.changedTouches[0].clientX - start.x;
+    const dy = e.changedTouches[0].clientY - start.y;
+    // only clearly horizontal swipes change the slide, so normal page scrolling still works
+    if (Math.abs(dx) >= SWIPE_PX && Math.abs(dx) > Math.abs(dy) * 1.5) goTo(dx < 0 ? index + 1 : index - 1);
   }
 
   if (!count) return null;
 
-  const slide = safeSlides[index];
-
   return (
     <section
-      aria-label="Featured JSS solutions"
-      className="bg-[#07172f] text-white"
+      ref={rootRef}
+      aria-roledescription="carousel"
+      aria-label="Featured solutions"
+      onKeyDown={onKeyDown}
+      onMouseEnter={() => (pausedRef.current = true)}
+      onMouseLeave={() => (pausedRef.current = false)}
+      onFocus={() => (pausedRef.current = true)}
+      onBlur={() => (pausedRef.current = false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onTouchCancel={() => (pausedRef.current = false)}
+      className="relative isolate overflow-hidden bg-navy text-white"
     >
-      <div
-        role="region"
-        aria-roledescription="carousel"
-        aria-label="Featured solutions"
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocus={() => setPaused(true)}
-        onBlur={handleBlur}
-        onTouchStart={(event) => {
-          touchStartX.current = event.touches[0].clientX;
-        }}
-        onTouchEnd={handleTouchEnd}
-        className="mx-auto max-w-[1440px] px-4 py-5 outline-offset-[-4px] sm:px-8 sm:py-8 lg:px-12 lg:py-10"
-      >
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#0c2345] via-[#0b1f3d] to-[#07172f]">
-          <div className="grid gap-7 p-5 sm:p-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-10 lg:p-10 xl:p-12">
-            <div key={`copy-${index}`} className="py-2 sm:py-4">
-              <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-white/55">
-                <span className="h-px w-8 bg-[#e52b36]" />
-                JSS Innovative Solutions
-              </div>
+      {/* quiet background: soft light + the logo's concentric arcs */}
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(255,255,255,0.08),transparent_55%)]" />
+        <svg
+          className="absolute right-0 top-0 h-full w-[70%] min-w-[520px] opacity-70"
+          viewBox="0 0 700 560"
+          preserveAspectRatio="xMaxYMid slice"
+          fill="none"
+          stroke="#fff"
+        >
+          <circle cx="600" cy="280" r="150" strokeOpacity=".07" />
+          <circle cx="600" cy="280" r="250" strokeOpacity=".06" />
+          <circle cx="600" cy="280" r="350" strokeOpacity=".05" />
+          <circle cx="600" cy="280" r="450" strokeOpacity=".04" />
+          <circle
+            cx="600"
+            cy="280"
+            r="250"
+            stroke="#d7141f"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="300 1300"
+            transform="rotate(-140 600 280)"
+          />
+        </svg>
+      </div>
 
-              <h2 className="mt-6 max-w-xl text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-5xl">
-                {slide.title}
-              </h2>
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        {/* all slides share one grid cell, so the section is always as tall as the tallest slide */}
+        <div className="grid">
+          {items.map((slide, i) => {
+            const active = i === index;
+            const Visual = VISUALS[i % VISUALS.length];
+            const showSecondary = !!slide.ctaLabel && !!slide.ctaHref && !/^\/?contact/i.test(slide.ctaHref.trim());
 
-              {slide.text && (
-                <p className="mt-5 max-w-lg text-base leading-7 text-white/70 sm:text-lg sm:leading-8">
-                  {slide.text}
-                </p>
-              )}
+            return (
+              <div
+                key={`${slide.title}-${i}`}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${i + 1} of ${count}`}
+                aria-hidden={!active}
+                inert={!active}
+                className={`col-start-1 row-start-1 grid items-center gap-10 py-12 transition-opacity duration-500 sm:py-16 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:py-24 ${
+                  active ? "opacity-100" : "pointer-events-none opacity-0"
+                }`}
+              >
+                <div
+                  className={`transition-all duration-700 ease-out motion-reduce:transition-none ${
+                    active ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+                  }`}
+                >
+                  <p className="flex items-center gap-3 text-sm font-medium text-white/60">
+                    <span className="h-0.5 w-8 bg-brand" />
+                    <span className="tabular-nums">
+                      {String(i + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+                    </span>
+                  </p>
 
-              {slide.ctaLabel && slide.ctaHref && (
-                <div className="mt-7">
-                  <SlideCta href={slide.ctaHref} label={slide.ctaLabel} />
+                  {slide.title && (
+                    <h2 className="mt-5 max-w-xl font-heading text-[2rem] font-semibold leading-[1.1] text-white sm:text-5xl lg:text-[3.5rem]">
+                      {slide.title}
+                    </h2>
+                  )}
+
+                  {slide.text && (
+                    <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75 sm:text-lg">{slide.text}</p>
+                  )}
+
+                  {slide.ctaLabel && slide.ctaHref && (
+                    <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                      <SlideCta href={slide.ctaHref} label={slide.ctaLabel} />
+                      {showSecondary && (
+                        <Link
+                          href="/contact"
+                          className="inline-flex min-h-12 items-center text-sm font-semibold text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white"
+                        >
+                          Talk to an expert
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
-              )}
 
-              <div className="mt-8 flex items-center gap-3 text-xs font-medium text-white/45">
-                <span className="tabular-nums">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="h-px w-8 bg-white/20" />
-                <span className="tabular-nums">
-                  {String(count).padStart(2, "0")}
-                </span>
-                <span className="ml-1">Solutions that fit your process</span>
-              </div>
-            </div>
-
-            <div key={`visual-${index}`}>
-              <SlideVisual slide={slide} index={index} />
-            </div>
-          </div>
-
-          {count > 1 && (
-            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 px-5 py-4 sm:px-8 lg:px-10">
-              <div className="flex flex-wrap items-center gap-2">
-                {safeSlides.map((item, itemIndex) => (
-                  <button
-                    key={`${item.title}-${itemIndex}`}
-                    type="button"
-                    onClick={() => goTo(itemIndex)}
-                    aria-label={`Show slide ${itemIndex + 1}: ${item.title || "highlight"}`}
-                    aria-pressed={itemIndex === index}
-                    className={`h-2 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white ${
-                      itemIndex === index
-                        ? "w-8 bg-[#ff777e]"
-                        : "w-2 bg-white/30 hover:bg-white/60"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="mr-2 hidden text-xs text-white/45 sm:inline">
-                  Explore our capabilities
-                </span>
-                <button
-                  type="button"
-                  onClick={() => goTo(index - 1)}
-                  aria-label="Previous slide"
-                  className="grid h-10 w-10 place-items-center rounded-lg border border-white/15 text-white transition-colors hover:bg-white/10"
+                {/* right column — hidden on phones, where text + button is the whole message */}
+                <div
+                  className={`hidden transition-all duration-700 ease-out motion-reduce:transition-none sm:block ${
+                    active ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  }`}
                 >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => goTo(index + 1)}
-                  aria-label="Next slide"
-                  className="grid h-10 w-10 place-items-center rounded-lg border border-white/15 text-white transition-colors hover:bg-white/10"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
+                  {slide.imageUrl ? (
+                    <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px] overflow-hidden rounded-2xl border border-white/15 shadow-2xl shadow-black/40">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={slide.imageUrl}
+                        alt={slide.title || "JSS Innovative Solutions"}
+                        className="h-full w-full object-cover"
+                        loading={i === 0 ? "eager" : "lazy"}
+                        draggable={false}
+                      />
+                    </div>
+                  ) : (
+                    <div className="mx-auto w-full max-w-[560px] drop-shadow-[0_30px_60px_rgba(0,0,0,0.35)]">
+                      <svg
+                        viewBox="0 0 560 400"
+                        role="img"
+                        aria-label={VISUAL_LABELS[i % VISUAL_LABELS.length]}
+                        className="h-auto w-full"
+                      >
+                        <Visual />
+                      </svg>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })}
         </div>
       </div>
+
+      {/* controls */}
+      {count > 1 && (
+        <div className="border-t border-white/10">
+          <nav aria-label="Slide navigation" className="mx-auto flex max-w-7xl items-stretch gap-3 px-5 sm:px-8">
+            <div className="flex flex-1 items-stretch">
+              {items.map((slide, i) => {
+                const active = i === index;
+                return (
+                  <button
+                    key={`${slide.title}-tab-${i}`}
+                    type="button"
+                    onClick={() => goTo(i)}
+                    aria-label={`Show slide ${i + 1}: ${slide.title || "highlight"}`}
+                    aria-current={active}
+                    className="group relative flex min-h-14 flex-1 items-center pr-3 text-left focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white md:items-start md:pt-4"
+                  >
+                    <span className="absolute inset-x-0 top-0 h-[3px] bg-white/10 md:bg-white/15" aria-hidden="true">
+                      <span
+                        className={`absolute inset-0 origin-left bg-brand ${active ? "" : "scale-x-0"}`}
+                        style={active ? { transform: reduced ? "scaleX(1)" : "scaleX(var(--p, 0))" } : undefined}
+                      />
+                    </span>
+                    <span
+                      className={`hidden truncate text-sm font-medium transition-colors md:block ${
+                        active ? "text-white" : "text-white/50 group-hover:text-white/80"
+                      }`}
+                    >
+                      <span className="mr-2 tabular-nums text-white/40">{String(i + 1).padStart(2, "0")}</span>
+                      {slide.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-2 py-2">
+              <button
+                type="button"
+                onClick={() => goTo(index - 1)}
+                aria-label="Previous slide"
+                className="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white transition-colors hover:bg-white hover:text-navy"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => goTo(index + 1)}
+                aria-label="Next slide"
+                className="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white transition-colors hover:bg-white hover:text-navy"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </nav>
+        </div>
+      )}
     </section>
   );
 }
-
-

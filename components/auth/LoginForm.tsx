@@ -25,7 +25,8 @@ export default function LoginForm() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed.");
 
-      const next = searchParams.get("next") || "/portal";
+      const requested = searchParams.get("next") || "/portal";
+const next = requested.startsWith("/") && !requested.startsWith("//") ? requested : "/portal";
       router.push(next);
       router.refresh();
     } catch (err) {
@@ -70,7 +71,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 font-heading text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? "Signing in…" : "Sign in"} <LogIn className="h-4 w-4" strokeWidth={2.25} />
       </button>

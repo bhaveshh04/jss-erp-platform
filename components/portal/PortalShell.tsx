@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -50,7 +50,7 @@ function NavLinks({ nav, pathname, onNavigate }: { nav: NavItem[]; pathname: str
             href={item.href}
             onClick={onNavigate}
             className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-              active ? "bg-gold/15 text-white" : "text-white/70 hover:bg-white/5 hover:text-white"
+              active ? "bg-white/10 text-white" : "text-white/70 hover:bg-white/5 hover:text-white"
             }`}
           >
             <Icon className="h-4 w-4 shrink-0" />
@@ -79,14 +79,11 @@ export default function PortalShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex min-h-screen bg-paper">
+    <div className="flex min-h-dvh bg-paper">
       {/* Desktop sidebar */}
       <aside className="hidden w-64 shrink-0 flex-col bg-navy p-5 lg:flex">
-        <Link href="/" className="flex items-center gap-2.5 px-2 pb-6">
-          <span className="grid h-9 w-9 place-items-center rounded-md bg-gold font-heading text-base font-bold text-navy">
-            JS
-          </span>
-          <span className="font-heading text-sm font-semibold text-white">JSS Portal</span>
+        <Link href="/portal" className="mb-6 block rounded-lg bg-white px-3 py-2.5" aria-label="JSS Portal — dashboard">
+          <Image src="/logo.png" alt="JSS Innovative Solutions" width={762} height={327} className="mx-auto h-10 w-auto" />
         </Link>
         <nav className="flex flex-1 flex-col gap-1">
           <NavLinks nav={nav} pathname={pathname} onNavigate={() => setMobileOpen(false)} />
@@ -118,7 +115,7 @@ export default function PortalShell({ children }: { children: React.ReactNode })
             <Link href="/" className="hidden text-xs font-medium text-slate hover:text-navy sm:block">
               ← Back to website
             </Link>
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-navy font-heading text-sm font-bold text-gold">
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-navy font-heading text-sm font-bold text-white">
               {user.name.charAt(0).toUpperCase()}
             </div>
           </div>
@@ -133,11 +130,8 @@ export default function PortalShell({ children }: { children: React.ReactNode })
           <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
           <aside className="relative flex w-72 flex-col bg-navy p-5">
             <div className="flex items-center justify-between pb-6">
-              <Link href="/" className="flex items-center gap-2.5">
-                <span className="grid h-9 w-9 place-items-center rounded-md bg-gold font-heading text-base font-bold text-navy">
-                  JS
-                </span>
-                <span className="font-heading text-sm font-semibold text-white">JSS Portal</span>
+              <Link href="/portal" onClick={() => setMobileOpen(false)} className="block rounded-lg bg-white px-3 py-2" aria-label="JSS Portal — dashboard">
+                <Image src="/logo.png" alt="JSS Innovative Solutions" width={762} height={327} className="h-9 w-auto" />
               </Link>
               <button onClick={() => setMobileOpen(false)} className="text-white/70" aria-label="Close menu">
                 <X className="h-5 w-5" />

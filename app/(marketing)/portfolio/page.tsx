@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContent } from "@/lib/site-content-db";
+import { pageMetadata } from "@/lib/seo";
+export const revalidate = 300;
 
-// Always server-render fresh — reads live content edited from Portal → Website content.
-export const dynamic = "force-dynamic";
-
-export const metadata: Metadata = {
-  title: "Portfolio & Case Studies",
+export const metadata = pageMetadata({
+  title: "Case Studies & Portfolio",
   description:
-    "Sample ERP, production planning and HRMS implementations delivered by JSS Innovative Solutions across textile, manufacturing and engineering clients.",
-};
-
+    "Sample ERP, production planning and HRMS implementations by JSS Innovative Solutions across textile, manufacturing and engineering businesses.",
+  path: "/portfolio",
+});
 export default async function Portfolio() {
   const caseStudies = await getSiteContent("caseStudies");
 
@@ -22,7 +21,7 @@ export default async function Portfolio() {
   description="A sample of the kind of problems our implementations are built to solve — illustrative of the process, not an exhaustive client list."
 />
 
-      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <div className="grid gap-8">
           {caseStudies.items.map((c) => (
             <div key={c.title} className="grid gap-6 rounded-xl border border-line bg-white p-8 sm:p-10 lg:grid-cols-[1fr_2fr]">
@@ -47,7 +46,7 @@ export default async function Portfolio() {
         </div>
       </section>
 
-      <section className="border-t border-line bg-paper-dim py-20 sm:py-24">
+      <section className="border-t border-line bg-paper-dim py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
           <SectionHeading
             align="center"

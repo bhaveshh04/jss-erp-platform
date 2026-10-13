@@ -1,62 +1,68 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-
+import { SITE_URL, SITE_NAME, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
-
-// const sora = Sora({
-//   variable: "--font-sora",
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700"],
-// });
-
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.jssinnovativesolutions.com";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0b1f4b",
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "JSS Innovative Solutions | 200% Customized ERP Solutions, Pune",
-    template: "%s | JSS Innovative Solutions",
-  },
-  description:
-    "JSS Innovative Solutions is a Pune-based ERP implementation and custom software partner delivering 200% customized ERP, inventory, billing, GST, payroll and CRM solutions for manufacturing, textile and process industries across India.",
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
+  title: { default: DEFAULT_TITLE, template: `%s | ${SITE_NAME}` },
+  description: DEFAULT_DESCRIPTION,
   keywords: [
     "ERP software Pune",
     "custom ERP solutions India",
     "ERP implementation company",
+    "HRMS and payroll software",
     "GST billing software",
-    "payroll software Pune",
     "manufacturing ERP",
     "JSS Innovative Solutions",
   ],
-  authors: [{ name: "JSS Innovative Solutions" }],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "technology",
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "JSS Innovative Solutions",
-    title: "JSS Innovative Solutions | 200% Customized ERP Solutions",
-    description:
-      "Pune-based ERP implementation and custom software partner — 200% customized ERP, inventory, billing, GST, payroll and CRM.",
-    url: siteUrl,
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    url: "/",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JSS Innovative Solutions | 200% Customized ERP Solutions",
-    description:
-      "Pune-based ERP implementation and custom software partner — 200% customized ERP, inventory, billing, GST, payroll and CRM.",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  // Optional: set GOOGLE_SITE_VERIFICATION in Vercel to verify Search Console by meta tag
+  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-<html lang="en" className={`${inter.variable} h-full antialiased`}>
-        <body className="min-h-full flex flex-col bg-paper text-ink">{children}</body>
+    <html lang="en-IN" className={`${inter.variable} h-full antialiased`}>
+      <body className="flex min-h-dvh flex-col bg-paper text-ink">{children}</body>
     </html>
   );
 }

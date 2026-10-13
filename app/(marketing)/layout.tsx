@@ -1,26 +1,68 @@
 import Navbar from "@/components/marketing/Navbar";
 import Footer from "@/components/marketing/Footer";
 import { getSiteContentMany } from "@/lib/site-content-db";
+import { SITE_URL } from "@/lib/seo";
 
-// Content here comes straight from the database (edited from Portal →
-// Website content), so this whole route group must always render fresh on
-// the server — never statically cached — or Owner edits wouldn't show up
-// without a full redeploy. This setting on the layout covers every page
-// under it, and each page below also sets it explicitly as a belt-and-braces
-// guarantee.
-export const dynamic = "force-dynamic";
+// Pages are cached and refreshed every 5 minutes, and immediately when the
+// owner saves in Portal → Website content (see the revalidatePath step below).
+export const revalidate = 300;
 
-// Every marketing page shares this layout, so we fetch the small, frequently
-// reused sections (company info + nav categories) once here rather than in
-// every page — this always reflects the latest edits from Portal → Website
-// content since it's a fresh DB read per request.
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   const { company, products, solutions } = await getSiteContentMany(["company", "products", "solutions"]);
 
+  const postalCode = company.address.match(/\b\d{6}\b/)?.[0];
+  const sameAs = Object.values(company.social).filter((u) => /^https?:\/\//i.test(u?.trim() ?? ""));
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: company.name,
+        inLanguage: "en-IN",
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": `${SITE_URL}/#organization`,
+        name: company.name,
+        url: SITE_URL,
+        logo: `${SITE_URL}/logo.png`,
+        image: `${SITE_URL}/opengraph-image`,
+        description: `${company.tagline} — ERP implementation and custom software development in ${company.location}.`,
+        telephone: company.phone,
+        email: company.email,
+        areaServed: "IN",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: company.address,
+          addressLocality: "Pune",
+          addressRegion: "Maharashtra",
+          ...(postalCode ? { postalCode } : {}),
+          addressCountry: "IN",
+        },
+        ...(sameAs.length ? { sameAs } : {}),
+      },
+    ],
+  };
+
   return (
     <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-navy focus:shadow-lg"
+      >
+        Skip to content
+      </a>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <Navbar company={company} products={products.items} solutions={solutions.items} />
-      <main className="flex-1">{children}</main>
+      <main id="main" className="flex-1">
+        {children}
+      </main>
       <Footer company={company} products={products.items} />
     </>
   );

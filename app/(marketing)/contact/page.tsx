@@ -3,15 +3,16 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { Eyebrow, PageHero, SectionHeading } from "@/components/ui/marketing-ui";
 import ContactForm from "@/components/marketing/ContactForm";
 import { getSiteContent } from "@/lib/site-content-db";
+import { pageMetadata } from "@/lib/seo";
+export const revalidate = 300;
 
-// Always server-render fresh — reads live content edited from Portal → Website content.
-export const dynamic = "force-dynamic";
-
-export const metadata: Metadata = {
-  title: "Contact Us",
+export const metadata = pageMetadata({
+  title: "Contact Us — Request an ERP Demo",
   description:
-    "Get in touch with JSS Innovative Solutions for an ERP demo, implementation quote, or support query. Pune office, phone and email details inside.",
-};
+    "Talk to JSS Innovative Solutions about an ERP demo, implementation quote or support. Call, email or visit our Dighi, Pune office.",
+  path: "/contact",
+});
+
 
 export default async function Contact() {
   const company = await getSiteContent("company");
@@ -24,7 +25,7 @@ export default async function Contact() {
   description="Reach out for a discovery call, a product demo, or a general question — we typically reply within one business day."
 />
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr]">
           <div>
             <SectionHeading eyebrow="Reach us directly" title="Prefer to just call or write?" />

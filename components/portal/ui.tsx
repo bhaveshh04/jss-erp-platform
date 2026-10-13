@@ -48,7 +48,7 @@ export function Button({
   className?: string;
 }) {
   const variants: Record<string, string> = {
-    primary: "bg-gold text-navy hover:-translate-y-0.5",
+    primary: "bg-brand text-white hover:bg-brand-dark",
     secondary: "border border-line text-navy hover:bg-paper-dim",
     danger: "bg-red-50 text-red-600 hover:bg-red-100",
     ghost: "text-navy hover:bg-paper-dim",
@@ -58,7 +58,7 @@ export function Button({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-heading text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${className}`}
     >
       {children}
     </button>

@@ -6,7 +6,7 @@ import PortalShell from "@/components/portal/PortalShell";
 import type { SafeUser } from "@/lib/types";
 
 export const metadata: Metadata = {
-  title: "Employee Portal",
+  title: { default: "Employee Portal", template: "%s | JSS Portal" },
   robots: { index: false, follow: false },
 };
 

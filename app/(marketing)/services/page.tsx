@@ -30,7 +30,7 @@ export default async function Services() {
 />
 
       {/* PRODUCTS */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <SectionHeading eyebrow="Products" title="ERP, HRMS, CRM & IoT" />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {products.items.map((p) => (
@@ -51,7 +51,7 @@ export default async function Services() {
       </section>
 
       {/* SOLUTIONS */}
-      <section className="bg-navy py-20 text-white sm:py-24">
+      <section className="bg-navy py-14 text-white sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading dark eyebrow="Solutions" title="AI, Data Analytics & Process Automation" />
           <div className="mt-14 grid gap-6 sm:grid-cols-3">
@@ -66,7 +66,7 @@ export default async function Services() {
       </section>
 
       {/* MODULES */}
-      <section id="modules" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-20 sm:px-8 sm:py-24">
+      <section id="modules" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <SectionHeading
           eyebrow="Under the hood"
           title="Six functional areas, one shared database"
@@ -90,7 +90,7 @@ export default async function Services() {
       </section>
 
       {/* CORE SERVICES DEEP DIVE */}
-      <section className="border-y border-line bg-paper-dim py-20 sm:py-24">
+      <section className="border-y border-line bg-paper-dim py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading eyebrow="Beyond ERP" title="AI & ML, Data Analytics, IIoT & Custom Software" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -105,7 +105,7 @@ export default async function Services() {
       </section>
 
       {/* INDUSTRIES */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <SectionHeading eyebrow="Industries" title="Vertical knowledge, not generic templates" />
         <div className="mt-12 flex flex-wrap gap-3">
           {industries.items.map((ind) => (

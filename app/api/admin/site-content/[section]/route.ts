@@ -9,7 +9,7 @@ import {
   SECTION_LABELS,
   type SectionKey,
 } from "@/lib/site-sections";
-
+import { revalidatePath } from "next/cache";
 export const runtime = "nodejs";
 
 type Params = {
@@ -124,6 +124,8 @@ export async function PUT(
     updatedAt: new Date(),
   },
 });
+
+    revalidatePath("/", "layout");
 
     try {
       await logActivity(

@@ -3,16 +3,16 @@ import { CheckCircle2 } from "lucide-react";
 import { Eyebrow, PageHero, SectionHeading } from "@/components/ui/marketing-ui";
 import CareersApplyForm from "@/components/marketing/CareersApplyForm";
 import { getSiteContent } from "@/lib/site-content-db";
+import  { pageMetadata } from "@/lib/seo";
 
-// Always server-render fresh — reads live content edited from Portal → Website content.
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Careers",
+export const metadata = pageMetadata({
+  title: "Careers — Join Our ERP Team",
   description:
-    "Open roles at JSS Innovative Solutions, including a Full Stack Developer training-to-hire position working on live ERP implementations in Java, Spring Boot, React and MySQL.",
-};
-
+    "Open roles at JSS Innovative Solutions in Pune, including a Full Stack Developer position on live ERP projects in Java, Spring Boot, React and MySQL.",
+  path: "/careers",
+});
 export default async function Careers() {
   const careers = await getSiteContent("careers");
   const positions = careers.positions;
@@ -25,7 +25,7 @@ export default async function Careers() {
   description="We keep the team small and the implementations real — every hire works on a live client engagement from week one."
 />
 
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <SectionHeading eyebrow="Open positions" title="Current openings" />
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
           {positions.map((p) => (
@@ -56,7 +56,7 @@ export default async function Careers() {
         </div>
       </section>
 
-      <section className="border-t border-line bg-paper-dim py-20 sm:py-24">
+      <section className="border-t border-line bg-paper-dim py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
           <SectionHeading align="center" eyebrow="Apply" title="Send us your details" />
           <div className="mt-10">
