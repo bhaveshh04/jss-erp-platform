@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   Globe,
+  Inbox,
   type LucideIcon,
 } from "lucide-react";
 import { usePortalUser } from "./PortalProviders";
@@ -26,6 +27,7 @@ const ownerNav: NavItem[] = [
   { href: "/portal/tasks", label: "Tasks", icon: ListChecks },
   { href: "/portal/leaves", label: "Leave requests", icon: CalendarDays },
   { href: "/portal/attendance", label: "Attendance", icon: Clock },
+    { href: "/portal/enquiries", label: "Enquiries", icon: Inbox },
   { href: "/portal/website", label: "Website content", icon: Globe },
   { href: "/portal/settings", label: "Settings", icon: Settings },
 ];

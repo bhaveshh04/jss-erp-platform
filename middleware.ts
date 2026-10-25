@@ -8,6 +8,7 @@ const OWNER_ONLY_PREFIXES = [
   "/portal/settings/office",
   "/portal/attendance/export",
   "/portal/website",
+  "/portal/enquiries",
 ];
 
 export async function middleware(req: NextRequest) {
