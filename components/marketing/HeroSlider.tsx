@@ -222,7 +222,7 @@ const VISUAL_LABELS = ["ERP dashboard preview", "HRMS dashboard preview", "Workf
 /* ------------------------------------------------------------------ */
 
 const CTA_CLASSES =
-  "group inline-flex min-h-12 w-fit items-center gap-2 rounded-md bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-navy focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
+  "btn-flame group inline-flex min-h-12 w-fit items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
 
 function SlideCta({ href, label }: { href: string; label: string }) {
   const h = href.trim();
@@ -362,35 +362,8 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onTouchCancel={() => (pausedRef.current = false)}
-      className="relative isolate overflow-hidden bg-navy text-white"
+      className="relative isolate text-white"
     >
-      {/* quiet background: soft light + the logo's concentric arcs */}
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(255,255,255,0.08),transparent_55%)]" />
-        <svg
-          className="absolute right-0 top-0 h-full w-[70%] min-w-[520px] opacity-70"
-          viewBox="0 0 700 560"
-          preserveAspectRatio="xMaxYMid slice"
-          fill="none"
-          stroke="#fff"
-        >
-          <circle cx="600" cy="280" r="150" strokeOpacity=".07" />
-          <circle cx="600" cy="280" r="250" strokeOpacity=".06" />
-          <circle cx="600" cy="280" r="350" strokeOpacity=".05" />
-          <circle cx="600" cy="280" r="450" strokeOpacity=".04" />
-          <circle
-            cx="600"
-            cy="280"
-            r="250"
-            stroke="#d7141f"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeDasharray="300 1300"
-            transform="rotate(-140 600 280)"
-          />
-        </svg>
-      </div>
-
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         {/* all slides share one grid cell, so the section is always as tall as the tallest slide */}
         <div className="grid">
@@ -417,20 +390,20 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                   }`}
                 >
                   <p className="flex items-center gap-3 text-sm font-medium text-white/60">
-                    <span className="h-0.5 w-8 bg-brand" />
+                    <span className="h-px w-8 bg-gradient-to-r from-[#ff7a2f] to-[#e11d2a]" />
                     <span className="tabular-nums">
                       {String(i + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
                     </span>
                   </p>
 
                   {slide.title && (
-                    <h2 className="mt-5 max-w-xl font-heading text-[2rem] font-semibold leading-[1.1] text-white sm:text-5xl lg:text-[3.5rem]">
+                    <h2 className="font-display text-silver mt-5 max-w-xl text-[2rem] font-semibold leading-[1.02] sm:text-5xl lg:text-[3.5rem]">
                       {slide.title}
                     </h2>
                   )}
 
                   {slide.text && (
-                    <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75 sm:text-lg">{slide.text}</p>
+                    <p className="mt-5 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">{slide.text}</p>
                   )}
 
                   {slide.ctaLabel && slide.ctaHref && (
@@ -455,23 +428,23 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                   }`}
                 >
                   {slide.imageUrl ? (
-                    <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px] overflow-hidden rounded-2xl border border-white/15 shadow-2xl shadow-black/40">
+                    <div className="glass edge relative mx-auto aspect-[4/3] w-full max-w-[560px] overflow-hidden rounded-[1.75rem] p-2.5">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={slide.imageUrl}
                         alt={slide.title || "JSS Innovative Solutions"}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full rounded-[1.25rem] object-cover"
                         loading={i === 0 ? "eager" : "lazy"}
                         draggable={false}
                       />
                     </div>
                   ) : (
-                    <div className="mx-auto w-full max-w-[560px] drop-shadow-[0_30px_60px_rgba(0,0,0,0.35)]">
+                    <div className="glass edge mx-auto w-full max-w-[580px] rounded-[1.75rem] p-2.5">
                       <svg
                         viewBox="0 0 560 400"
                         role="img"
                         aria-label={VISUAL_LABELS[i % VISUAL_LABELS.length]}
-                        className="h-auto w-full"
+                        className="h-auto w-full overflow-hidden rounded-[1.25rem]"
                       >
                         <Visual />
                       </svg>
@@ -502,7 +475,7 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                   >
                     <span className="absolute inset-x-0 top-0 h-[3px] bg-white/10 md:bg-white/15" aria-hidden="true">
                       <span
-                        className={`absolute inset-0 origin-left bg-brand ${active ? "" : "scale-x-0"}`}
+                        className={`absolute inset-0 origin-left bg-gradient-to-r from-[#e11d2a] to-[#ff7a2f] ${active ? "" : "scale-x-0"}`}
                         style={active ? { transform: reduced ? "scaleX(1)" : "scaleX(var(--p, 0))" } : undefined}
                       />
                     </span>
@@ -524,7 +497,7 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                 type="button"
                 onClick={() => goTo(index - 1)}
                 aria-label="Previous slide"
-                className="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white transition-colors hover:bg-white hover:text-navy"
+                className="glass grid h-11 w-11 place-items-center rounded-full text-white transition-colors hover:bg-white hover:text-navy"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -532,7 +505,7 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                 type="button"
                 onClick={() => goTo(index + 1)}
                 aria-label="Next slide"
-                className="grid h-11 w-11 place-items-center rounded-md border border-white/20 text-white transition-colors hover:bg-white hover:text-navy"
+                className="glass grid h-11 w-11 place-items-center rounded-full text-white transition-colors hover:bg-white hover:text-navy"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>

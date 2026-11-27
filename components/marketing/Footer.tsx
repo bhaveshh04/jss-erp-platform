@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
 import type { CompanySection, CategoriesSection } from "@/lib/site-sections";
 
 function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -59,17 +59,53 @@ export default function Footer({ company, products }: Props) {
     { href: company.social.youtube, Icon: YoutubeIcon, label: "YouTube" },
   ].filter((s) => /^https?:\/\//i.test(s.href?.trim() ?? ""));
 
-  const linkClass = "inline-block py-1 text-sm text-white/65 transition-colors hover:text-white";
+  const linkClass =
+    "group inline-flex items-center gap-1 py-1 text-sm text-white/55 transition-colors hover:text-white";
 
   return (
-    <footer className="bg-navy text-white">
-      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-16">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr] lg:gap-12">
-          <div className="col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-block rounded-lg bg-white px-4 py-3" aria-label={`${company.name} — home`}>
-              <Image src="/logo.png" alt={company.name} width={762} height={327} className="h-11 w-auto sm:h-12" />
+    <footer className="grain relative isolate overflow-hidden bg-night text-white">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="dots absolute inset-0 opacity-40 [mask-image:linear-gradient(to_bottom,transparent,#000_40%,transparent)]" />
+        <div className="glow left-1/2 top-[-260px] h-[420px] w-[900px] -translate-x-1/2 bg-[#e11d2a]/20" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-5 pt-16 sm:px-8 sm:pt-20">
+        {/* top row: big statement + contact CTA */}
+        <div className="flex flex-col justify-between gap-8 border-b border-white/10 pb-12 lg:flex-row lg:items-end">
+          <h2 className="font-display max-w-2xl text-4xl font-semibold leading-[1.02] sm:text-5xl">
+            <span className="text-silver">Let&apos;s build the ERP your floor</span>{" "}
+            <span className="font-accent text-flame">actually needs.</span>
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/contact"
+              className="btn-flame group inline-flex min-h-12 items-center gap-2 rounded-full py-2 pl-6 pr-2 text-sm font-semibold"
+            >
+              Start a project
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20 transition-transform group-hover:rotate-45">
+                <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+              </span>
             </Link>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/65">
+            <a
+              href={`tel:${company.phone.replace(/\s/g, "")}`}
+              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10"
+            >
+              <Phone className="h-4 w-4" /> {company.phone}
+            </a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-14 lg:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:gap-12">
+          <div className="col-span-2 lg:col-span-1">
+            <Link
+              href="/"
+              className="inline-block rounded-2xl bg-white px-4 py-3 shadow-[0_10px_40px_-10px_rgba(225,29,42,0.45)]"
+              aria-label={`${company.name} — home`}
+            >
+              <Image src="/logo.png" alt={company.name} width={762} height={327} className="h-11 w-auto" />
+            </Link>
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/55">
               {company.tagline} — a Pune-based ERP implementation and software development partner serving
               manufacturing, textile and process industries across {company.serves}.
             </p>
@@ -81,7 +117,7 @@ export default function Footer({ company, products }: Props) {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="grid h-11 w-11 place-items-center rounded-md border border-white/15 text-white/70 transition-colors hover:border-white hover:bg-white hover:text-navy"
+                    className="glass grid h-11 w-11 place-items-center rounded-full text-white/70 transition-all hover:-translate-y-0.5 hover:text-white"
                     aria-label={`${company.name} on ${label}`}
                   >
                     <Icon className="h-4 w-4" />
@@ -93,12 +129,13 @@ export default function Footer({ company, products }: Props) {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h2 className="text-sm font-semibold text-white">{col.title}</h2>
-              <ul className="mt-4 space-y-1">
+              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-white/35">{col.title}</h2>
+              <ul className="mt-5 space-y-1.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link href={l.to} className={linkClass}>
                       {l.label}
+                      <ArrowUpRight className="h-3 w-3 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                     </Link>
                   </li>
                 ))}
@@ -107,33 +144,40 @@ export default function Footer({ company, products }: Props) {
           ))}
 
           <div className="col-span-2 lg:col-span-1">
-            <h2 className="text-sm font-semibold text-white">Get in touch</h2>
-            <ul className="mt-4 space-y-3 text-sm text-white/65">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-white/35">Get in touch</h2>
+            <ul className="mt-5 space-y-3 text-sm text-white/60">
               <li className="flex items-start gap-3">
-                <Phone className="mt-1 h-4 w-4 shrink-0 text-gold" />
-                <a href={`tel:${company.phone.replace(/\s/g, "")}`} className="py-0.5 transition-colors hover:text-white">
-                  {company.phone}
-                </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <Mail className="mt-1 h-4 w-4 shrink-0 text-gold" />
-                <a href={`mailto:${company.email}`} className="break-all py-0.5 transition-colors hover:text-white">
+                <span className="glass grid h-8 w-8 shrink-0 place-items-center rounded-full">
+                  <Mail className="h-3.5 w-3.5 text-[#ff7a2f]" />
+                </span>
+                <a href={`mailto:${company.email}`} className="pt-1.5 transition-colors [overflow-wrap:anywhere] hover:text-white">
                   {company.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="mt-1 h-4 w-4 shrink-0 text-gold" />
-                <span className="py-0.5">{company.address}</span>
+                <span className="glass grid h-8 w-8 shrink-0 place-items-center rounded-full">
+                  <MapPin className="h-3.5 w-3.5 text-[#ff7a2f]" />
+                </span>
+                <span className="pt-1.5 leading-relaxed">{company.address}</span>
               </li>
             </ul>
           </div>
         </div>
+      </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-white/50">
+      {/* oversized wordmark */}
+      <div aria-hidden="true" className="relative mx-auto max-w-7xl select-none overflow-hidden px-5 sm:px-8">
+        <div className="font-display text-outline text-center text-[24vw] font-extrabold leading-[0.78] tracking-[-0.06em] lg:text-[17rem]">
+          JSS<span className="ml-[0.04em] inline-block h-[0.16em] w-[0.16em] rounded-full bg-gradient-to-br from-[#ffb648] via-[#ff7a2f] to-[#e11d2a] align-baseline shadow-[0_0_60px_rgba(255,122,47,0.6)]" />
+        </div>
+      </div>
+
+      <div className="relative border-t border-white/10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <p className="text-xs text-white/40">
             © {new Date().getFullYear()} {company.name}. All rights reserved.
           </p>
-          <p className="text-xs text-white/50">
+          <p className="text-xs text-white/40">
             {company.tagline} · {company.location}
           </p>
         </div>

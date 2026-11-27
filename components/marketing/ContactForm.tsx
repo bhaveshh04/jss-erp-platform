@@ -43,9 +43,9 @@ export default function ContactForm() {
 
   if (status === "done") {
     return (
-      <div className="flex flex-col items-center justify-center rounded-xl border border-line bg-white p-10 text-center">
-        <CheckCircle2 className="h-12 w-12 text-gold-dim" strokeWidth={1.5} />
-        <h3 className="mt-5 font-heading text-2xl font-semibold text-navy">Message received</h3>
+      <div className="flex flex-col items-center justify-center reveal glass-light spot spot-light rounded-3xl p-10 text-center">
+        <CheckCircle2 className="h-12 w-12 text-brand" strokeWidth={1.5} />
+        <h3 className="mt-5 font-display text-2xl font-semibold text-navy">Message received</h3>
         <p className="mt-2 max-w-sm text-sm text-slate">
           Thanks, {form.name.split(" ")[0] || "there"} — we&apos;ll get back to you at {form.email} shortly.
         </p>
@@ -55,7 +55,7 @@ export default function ContactForm() {
             setForm(initialForm);
             setStatus("idle");
           }}
-          className="mt-6 font-heading text-sm font-semibold text-gold-dim hover:text-navy"
+          className="mt-6 font-display text-sm font-semibold text-brand hover:text-navy"
         >
           Send another message
         </button>
@@ -64,7 +64,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-line bg-white p-6 sm:p-10">
+    <form onSubmit={handleSubmit} className="space-y-5 reveal glass-light spot spot-light rounded-3xl p-6 sm:p-10">
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name" name="name" value={form.name} onChange={handleChange} required />
         <Field label="Company" name="company" value={form.company} onChange={handleChange} />
@@ -83,7 +83,7 @@ export default function ContactForm() {
           name="interest"
           value={form.interest}
           onChange={handleChange}
-          className="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-navy outline-none focus:border-gold-dim"
+          className="field"
         >
           <option>ERP implementation</option>
           <option>HRMS / Payroll</option>
@@ -107,7 +107,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Industry, current pain point, team size — whatever's useful."
-          className="w-full resize-none rounded-xl border border-line bg-paper px-4 py-3 text-sm text-navy outline-none placeholder:text-slate/60 focus:border-gold-dim"
+          className="field resize-none"
         />
       </div>
 
@@ -116,7 +116,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-brand px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn-flame inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold sm:w-fit disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? "Sending…" : "Send message"} <Send className="h-4 w-4" strokeWidth={2.25} />
       </button>
@@ -142,7 +142,7 @@ function Field({
   return (
     <div>
       <label htmlFor={name} className="mb-1.5 block text-sm font-medium text-navy">
-        {label} {required && <span className="text-gold-dim">*</span>}
+        {label} {required && <span className="text-brand">*</span>}
       </label>
       <input
         id={name}
@@ -151,7 +151,7 @@ function Field({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-navy outline-none placeholder:text-slate/60 focus:border-gold-dim"
+        className="field"
       />
     </div>
   );

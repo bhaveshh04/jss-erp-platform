@@ -1,7 +1,9 @@
 import Navbar from "@/components/marketing/Navbar";
 import Footer from "@/components/marketing/Footer";
+import Motion from "@/components/marketing/Motion";
 import { getSiteContentMany } from "@/lib/site-content-db";
 import { SITE_URL } from "@/lib/seo";
+import "./marketing.css";
 
 // Pages are cached and refreshed every 5 minutes, and immediately when the
 // owner saves in Portal → Website content (see the revalidatePath step below).
@@ -48,7 +50,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   };
 
   return (
-    <>
+    <div className="mk flex min-h-dvh flex-col">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-navy focus:shadow-lg"
@@ -64,6 +66,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
         {children}
       </main>
       <Footer company={company} products={products.items} />
-    </>
+      <Motion />
+    </div>
   );
 }

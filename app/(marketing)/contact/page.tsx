@@ -21,7 +21,8 @@ export default async function Contact() {
     <>
 <PageHero
   eyebrow="Contact"
-  title="Let's map your process before we talk product"
+  title="Let's map your process"
+  highlight="before we talk product."
   description="Reach out for a discovery call, a product demo, or a general question — we typically reply within one business day."
 />
 
@@ -30,34 +31,34 @@ export default async function Contact() {
           <div>
             <SectionHeading eyebrow="Reach us directly" title="Prefer to just call or write?" />
             <ul className="mt-8 space-y-5">
-              <li className="flex items-start gap-4 	rounded-xl border border-line bg-white p-5">
-                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-gold-dim" strokeWidth={1.75} />
+              <li className="flex items-start gap-4 reveal glass-light spot spot-light rounded-3xl p-5">
+                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-brand" strokeWidth={1.75} />
                 <div>
                   <div className="font-sans text-xs font-semibold uppercase tracking-wide text-slate">Call</div>
-                  <a href={`tel:${company.phone.replace(/\s/g, "")}`} className="mt-1 block font-heading text-base font-semibold text-navy">
+                  <a href={`tel:${company.phone.replace(/\s/g, "")}`} className="mt-1 block font-display text-base font-semibold text-navy">
                     {company.phone}
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-4 	rounded-xl border border-line bg-white p-5">
-                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-gold-dim" strokeWidth={1.75} />
+              <li className="flex items-start gap-4 reveal glass-light spot spot-light rounded-3xl p-5">
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-brand" strokeWidth={1.75} />
                 <div>
                   <div className="font-sans text-xs font-semibold uppercase tracking-wide text-slate">Email</div>
-                  <a href={`mailto:${company.email}`} className="mt-1 block break-all font-heading text-base font-semibold text-navy">
+                  <a href={`mailto:${company.email}`} className="mt-1 block break-all font-display text-base font-semibold text-navy">
                     {company.email}
                   </a>
                 </div>
               </li>
-              <li className="flex items-start gap-4 	rounded-xl border border-line bg-white p-5">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gold-dim" strokeWidth={1.75} />
+              <li className="flex items-start gap-4 reveal glass-light spot spot-light rounded-3xl p-5">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand" strokeWidth={1.75} />
                 <div>
                   <div className="font-sans text-xs font-semibold uppercase tracking-wide text-slate">Office</div>
-                  <p className="mt-1 font-heading text-base font-semibold text-navy">{company.address}</p>
+                  <p className="mt-1 font-display text-base font-semibold text-navy">{company.address}</p>
                 </div>
               </li>
             </ul>
 
-            <div className="mt-8 overflow-hidden 	rounded-xl border border-line">
+            <div className="mt-8 glass-light overflow-hidden rounded-3xl p-1.5 [&>iframe]:rounded-[1.25rem]">
               <iframe
                 title="JSS Innovative Solutions office location"
                 className="h-64 w-full grayscale"

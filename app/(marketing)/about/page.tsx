@@ -22,7 +22,8 @@ export default async function About() {
     <>
 <PageHero
   eyebrow={`About ${company.name}`}
-  title="Integrating business with technology"
+  title="Integrating business"
+  highlight="with technology."
   description={`We're a ${company.location}-based ERP and software development partner, building systems for manufacturing, textile and process industries across ${company.serves}.`}
 />
 
@@ -31,7 +32,7 @@ export default async function About() {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <Eyebrow>Who we are</Eyebrow>
-            <h2 className="mt-3 font-heading text-3xl font-semibold leading-tight text-navy sm:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-semibold leading-tight text-navy sm:text-4xl">
               {about.whoWeAreTitle}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-slate">{about.whoWeAreBody}</p>
@@ -39,12 +40,12 @@ export default async function About() {
           </div>
 
           <div className="grid gap-6">
-            <div className="	rounded-xl border border-line bg-white p-8">
-              <h3 className="font-heading text-xl font-semibold text-navy">Our Vision</h3>
+            <div className="reveal glass-light spot spot-light rounded-3xl p-8">
+              <h3 className="font-display text-xl font-semibold text-navy">Our Vision</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-slate">{about.vision}</p>
             </div>
-            <div className="	rounded-xl border border-line bg-white p-8">
-              <h3 className="font-heading text-xl font-semibold text-navy">Our Mission</h3>
+            <div className="reveal glass-light spot spot-light rounded-3xl p-8">
+              <h3 className="font-display text-xl font-semibold text-navy">Our Mission</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-slate">{about.mission}</p>
             </div>
           </div>
@@ -52,13 +53,13 @@ export default async function About() {
       </section>
 
       {/* WHY CHOOSE US */}
-      <section className="bg-navy py-14 text-white sm:py-20 lg:py-24">
+      <section className="grain relative isolate overflow-hidden bg-night bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(225,29,42,0.22),transparent),radial-gradient(ellipse_50%_50%_at_90%_100%,rgba(76,95,215,0.22),transparent)] py-14 text-white sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading dark eyebrow="Why choose us" title="What an engagement with us actually looks like" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {whyChooseUs.items.map((w) => (
-              <div key={w.title} className="	rounded-xl border border-white/10 bg-white/[0.03] p-6">
-                <h3 className="font-heading text-base font-semibold text-white">{w.title}</h3>
+              <div key={w.title} className="reveal glass spot rounded-3xl p-6">
+                <h3 className="font-display text-base font-semibold text-white">{w.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/60">{w.description}</p>
               </div>
             ))}
@@ -71,11 +72,11 @@ export default async function About() {
         <SectionHeading eyebrow="Core values" title="The five I's" align="center" />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {values.items.map((v) => (
-            <div key={v.title} className="	rounded-xl border border-line bg-white p-6 text-center">
-              <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg bg-navy font-heading text-lg font-semibold text-white">
+            <div key={v.title} className="reveal glass-light spot spot-light rounded-3xl p-6 text-center">
+              <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg bg-navy font-display text-lg font-semibold text-white">
                 {v.letter}
               </div>
-              <h3 className="mt-4 font-heading text-base font-semibold text-navy">{v.title}</h3>
+              <h3 className="mt-4 font-display text-base font-semibold text-navy">{v.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate">{v.description}</p>
             </div>
           ))}
@@ -83,18 +84,18 @@ export default async function About() {
       </section>
 
       {/* LEADERSHIP */}
-      <section className="border-y border-line bg-paper-dim py-14 sm:py-20 lg:py-24">
+      <section className="bg-paper-dim py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:items-center">
             <div>
               <Eyebrow>Leadership</Eyebrow>
-              <h2 className="mt-3 font-heading text-3xl font-semibold text-navy">
+              <h2 className="mt-3 font-display text-3xl font-semibold text-navy">
                 Led from the floor, not the boardroom
               </h2>
             </div>
-            <div className="	rounded-xl border border-line bg-white p-8">
-              <h3 className="font-heading text-xl font-semibold text-navy">{about.leaderName}</h3>
-              <p className="mt-1 font-sans text-xs font-semibold uppercase tracking-wide text-gold-dim">
+            <div className="reveal glass-light spot spot-light rounded-3xl p-8">
+              <h3 className="font-display text-xl font-semibold text-navy">{about.leaderName}</h3>
+              <p className="mt-1 font-sans text-xs font-semibold uppercase tracking-wide text-brand">
                 {about.leaderTitle}
               </p>
               <p className="mt-4 text-[15px] leading-relaxed text-slate">{about.leaderBio}</p>
@@ -103,9 +104,9 @@ export default async function About() {
         </div>
       </section>
 
-      <section className="bg-navy py-16 text-white">
+      <section className="grain relative isolate overflow-hidden bg-night bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(225,29,42,0.22),transparent),radial-gradient(ellipse_50%_50%_at_90%_100%,rgba(76,95,215,0.22),transparent)] py-24 text-white sm:py-28">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-5 text-center sm:px-8">
-          <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
+          <h2 className="font-display text-silver text-3xl font-semibold leading-[1.05] sm:text-5xl">
             Want the full picture before you call?
           </h2>
           <PrimaryButton to="/services">See what we build</PrimaryButton>

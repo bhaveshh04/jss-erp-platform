@@ -25,7 +25,8 @@ export default async function Services() {
     <>
     <PageHero
   eyebrow="What we build"
-  title="Products and solutions, mapped to how you work"
+  title="Products and solutions,"
+  highlight="mapped to how you work."
   description="Every product below reads and writes to the same core, so dashboards and reports can span inventory, production, sales and HR instead of stopping at one department."
 />
 
@@ -34,13 +35,13 @@ export default async function Services() {
         <SectionHeading eyebrow="Products" title="ERP, HRMS, CRM & IoT" />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {products.items.map((p) => (
-            <div key={p.slug} id={p.slug} className="scroll-mt-24 	rounded-xl border border-line bg-white p-7">
-              <h3 className="font-heading text-xl font-semibold text-navy">{p.name}</h3>
+            <div key={p.slug} id={p.slug} className="scroll-mt-32 reveal glass-light spot spot-light rounded-3xl p-7">
+              <h3 className="font-display text-xl font-semibold text-navy">{p.name}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate">{p.summary}</p>
               <ul className="mt-5 space-y-2.5">
                 {p.points.map((point) => (
                   <li key={point} className="flex items-start gap-2 text-sm text-slate">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold-dim" strokeWidth={2} />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={2} />
                     {point}
                   </li>
                 ))}
@@ -51,13 +52,13 @@ export default async function Services() {
       </section>
 
       {/* SOLUTIONS */}
-      <section className="bg-navy py-14 text-white sm:py-20 lg:py-24">
+      <section className="grain relative isolate overflow-hidden bg-night bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(225,29,42,0.22),transparent),radial-gradient(ellipse_50%_50%_at_90%_100%,rgba(76,95,215,0.22),transparent)] py-14 text-white sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading dark eyebrow="Solutions" title="AI, Data Analytics & Process Automation" />
           <div className="mt-14 grid gap-6 sm:grid-cols-3">
             {solutions.items.map((s) => (
-              <div key={s.slug} id={s.slug} className="scroll-mt-24 	rounded-xl border border-white/10 bg-white/[0.03] p-7">
-                <h3 className="font-heading text-lg font-semibold text-white">{s.name}</h3>
+              <div key={s.slug} id={s.slug} className="scroll-mt-32 reveal glass spot rounded-3xl p-7">
+                <h3 className="font-display text-lg font-semibold text-white">{s.name}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/60">{s.summary}</p>
               </div>
             ))}
@@ -66,7 +67,7 @@ export default async function Services() {
       </section>
 
       {/* MODULES */}
-      <section id="modules" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
+      <section id="modules" className="mx-auto max-w-7xl scroll-mt-32 px-5 py-14 sm:px-8 sm:py-20 lg:py-24">
         <SectionHeading
           eyebrow="Under the hood"
           title="Six functional areas, one shared database"
@@ -74,12 +75,12 @@ export default async function Services() {
         />
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {modules.items.map((m) => (
-            <div key={m.group} className="	rounded-xl border border-line bg-white p-7">
-              <h3 className="font-heading text-lg font-semibold text-navy">{m.group}</h3>
+            <div key={m.group} className="reveal glass-light spot spot-light rounded-3xl p-7">
+              <h3 className="font-display text-lg font-semibold text-navy">{m.group}</h3>
               <ul className="mt-4 space-y-2.5">
                 {m.items.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-slate">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold-dim" strokeWidth={2} />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={2} />
                     {item}
                   </li>
                 ))}
@@ -90,13 +91,13 @@ export default async function Services() {
       </section>
 
       {/* CORE SERVICES DEEP DIVE */}
-      <section className="border-y border-line bg-paper-dim py-14 sm:py-20 lg:py-24">
+      <section className="bg-paper-dim py-14 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading eyebrow="Beyond ERP" title="AI & ML, Data Analytics, IIoT & Custom Software" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {services.items.map((s) => (
-              <div key={s.title} className="	rounded-xl border border-line bg-white p-7">
-                <h3 className="font-heading text-lg font-semibold text-navy">{s.title}</h3>
+              <div key={s.title} className="reveal glass-light spot spot-light rounded-3xl p-7">
+                <h3 className="font-display text-lg font-semibold text-navy">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate">{s.description}</p>
               </div>
             ))}
@@ -109,16 +110,16 @@ export default async function Services() {
         <SectionHeading eyebrow="Industries" title="Vertical knowledge, not generic templates" />
         <div className="mt-12 flex flex-wrap gap-3">
           {industries.items.map((ind) => (
-            <span key={ind} className="rounded-full border border-line bg-white px-5 py-3 text-sm text-navy/80">
+            <span key={ind} className="reveal glass-light rounded-full px-5 py-3 text-sm font-medium text-navy/80">
               {ind}
             </span>
           ))}
         </div>
       </section>
 
-      <section className="bg-navy py-16 text-white">
+      <section className="grain relative isolate overflow-hidden bg-night bg-[radial-gradient(ellipse_70%_60%_at_50%_0%,rgba(225,29,42,0.22),transparent),radial-gradient(ellipse_50%_50%_at_90%_100%,rgba(76,95,215,0.22),transparent)] py-24 text-white sm:py-28">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-5 text-center sm:px-8">
-          <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
+          <h2 className="font-display text-silver text-3xl font-semibold leading-[1.05] sm:text-5xl">
             Not sure which modules you need yet?
           </h2>
           <p className="max-w-xl text-white/65">
