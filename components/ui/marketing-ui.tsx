@@ -75,6 +75,7 @@ export function PageHero({
   description,
   highlight,
   crumb,
+  children,
 }: {
   eyebrow?: string;
   title: string;
@@ -82,6 +83,8 @@ export function PageHero({
   highlight?: string;
   /** e.g. { name: "About", path: "/about" } — adds a visible breadcrumb + Google breadcrumb data */
   crumb?: { name: string; path: string };
+  /** optional buttons under the description */
+  children?: React.ReactNode;
 }) {
   const breadcrumbLd = crumb && {
     "@context": "https://schema.org",
@@ -147,6 +150,11 @@ export function PageHero({
           >
             {description}
           </p>
+        )}
+        {children && (
+          <div className="rise mt-9 flex flex-wrap gap-3" style={{ "--d": "260ms" } as React.CSSProperties}>
+            {children}
+          </div>
         )}
       </div>
     </section>

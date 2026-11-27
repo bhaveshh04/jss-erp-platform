@@ -20,7 +20,9 @@ import {
   Activity,
 } from "lucide-react";
 import { Eyebrow, SectionHeading, PrimaryButton, GhostButton, LightBackdrop } from "@/components/ui/marketing-ui";
+import Link from "next/link";
 import HeroSlider from "@/components/marketing/HeroSlider";
+import { ALL_LANDING_PAGES, landingPath } from "@/lib/landing-pages";
 import { getSiteContentMany } from "@/lib/site-content-db";
 import { pageMetadata, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from "@/lib/seo";
 
@@ -160,6 +162,17 @@ export default async function Home() {
                 </span>
               ))}
             </div>
+          </div>
+          <div className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 px-5 text-sm">
+            {ALL_LANDING_PAGES.map((lp) => (
+              <Link
+                key={lp.slug}
+                href={landingPath(lp)}
+                className="inline-flex items-center gap-1 text-white/55 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-white"
+              >
+                {lp.name} <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            ))}
           </div>
         </div>
       </section>

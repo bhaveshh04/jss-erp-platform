@@ -1,4 +1,6 @@
-import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { CheckCircle2, ArrowUpRight } from "lucide-react";
+import { ALL_LANDING_PAGES, landingPath } from "@/lib/landing-pages";
 import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContentMany } from "@/lib/site-content-db";
 import { pageMetadata } from "@/lib/seo";
@@ -115,6 +117,18 @@ export default async function Services() {
             <span key={ind} className="reveal glass-light rounded-full px-5 py-3 text-sm font-medium text-navy/80">
               {ind}
             </span>
+          ))}
+        </div>
+        <div className="reveal mt-10 flex flex-wrap items-center gap-3">
+          <span className="text-sm font-semibold text-navy/50">Industry-specific ERP:</span>
+          {ALL_LANDING_PAGES.map((lp) => (
+            <Link
+              key={lp.slug}
+              href={landingPath(lp)}
+              className="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand"
+            >
+              {lp.name} <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
           ))}
         </div>
       </section>

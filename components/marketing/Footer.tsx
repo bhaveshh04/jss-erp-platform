@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
 import type { CompanySection, CategoriesSection } from "@/lib/site-sections";
+import { ALL_LANDING_PAGES, landingPath } from "@/lib/landing-pages";
 
 function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -49,6 +50,7 @@ export default function Footer({ company, products }: Props) {
   const columns = [
     { title: "Company", links: companyLinks },
     { title: "Products", links: products.map((p) => ({ to: `/services#${p.slug}`, label: p.name })) },
+    { title: "Industries", links: ALL_LANDING_PAGES.map((p) => ({ to: landingPath(p), label: p.name })) },
   ];
 
   // only render social icons that have a real https:// link (blank / invalid ones are hidden)
@@ -96,8 +98,8 @@ export default function Footer({ company, products }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-14 lg:grid-cols-[1.5fr_1fr_1fr_1.4fr] lg:gap-12">
-          <div className="col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-14 sm:grid-cols-3 lg:grid-cols-[1.5fr_0.8fr_0.8fr_1fr_1.4fr] lg:gap-12">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <Link
               href="/"
               className="inline-block rounded-2xl bg-white px-4 py-3 shadow-[0_10px_40px_-10px_rgba(225,29,42,0.45)]"
@@ -143,7 +145,7 @@ export default function Footer({ company, products }: Props) {
             </div>
           ))}
 
-          <div className="col-span-2 lg:col-span-1">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-white/35">Get in touch</h2>
             <ul className="mt-5 space-y-3 text-sm text-white/60">
               <li className="flex items-start gap-3">
