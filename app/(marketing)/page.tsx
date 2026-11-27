@@ -81,14 +81,14 @@ export default async function Home() {
                 <Eyebrow dark>{hero.eyebrow}</Eyebrow>
               </div>
               <h1
-                className="rise font-display mt-7 text-[2.75rem] font-semibold leading-[0.98] sm:text-6xl lg:text-[4rem] xl:text-[4.75rem]"
+                className="rise-text font-display mt-7 text-[2.75rem] font-semibold leading-[0.98] sm:text-6xl lg:text-[4rem] xl:text-[4.75rem]"
                 style={css({ "--d": "80ms" })}
               >
                 <span className="text-silver">{hero.headline}</span>{" "}
                 <span className="font-accent text-flame pr-2">{hero.headlineHighlight}</span>
               </h1>
               <p
-                className="rise mt-7 max-w-xl text-lg leading-relaxed text-white/65"
+                className="rise-text mt-7 max-w-xl text-lg leading-relaxed text-white/65"
                 style={css({ "--d": "160ms" })}
               >
                 {hero.subheadline}

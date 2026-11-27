@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
 import { Eyebrow, SectionHeading, PrimaryButton, PageHero } from "@/components/ui/marketing-ui";
 import { getSiteContentMany } from "@/lib/site-content-db";
+import { pageMetadata } from "@/lib/seo";
 
-// Always server-render fresh — reads live content edited from Portal → Website content.
-export const dynamic = "force-dynamic";
+// Cached like the other pages; refreshed every 5 minutes and instantly when content is saved in the portal.
+export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Products & Services",
+export const metadata = pageMetadata({
+  title: "ERP, HRMS, CRM & IoT Products and Services",
   description:
-    "ERP, HRMS, CRM and IoT products, plus AI, data analytics and process-automation solutions from JSS Innovative Solutions — 200% customised for manufacturing, textile and process industries.",
-};
+    "Customised ERP, HRMS, CRM and IoT products plus AI, data analytics and process automation from JSS Innovative Solutions, Pune — built for manufacturing, textile and process industries.",
+  path: "/services",
+});
 
 export default async function Services() {
   const { products, solutions, modules, services, industries } = await getSiteContentMany([
@@ -24,6 +25,7 @@ export default async function Services() {
   return (
     <>
     <PageHero
+  crumb={{ name: "Services", path: "/services" }}
   eyebrow="What we build"
   title="Products and solutions,"
   highlight="mapped to how you work."

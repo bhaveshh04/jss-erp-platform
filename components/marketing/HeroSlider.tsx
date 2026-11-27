@@ -298,10 +298,14 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
 
   // One animation-frame loop drives both the timer and the progress line, so
   // they can never drift apart. Hover, focus, touch and hidden tabs pause both.
+  // The loop only runs while the slider is on screen — once it scrolls away it
+  // stops completely (no work at all), and resumes when it comes back.
   useEffect(() => {
     if (count < 2 || reduced) return;
+    const el = rootRef.current;
     let raf = 0;
-    let last = performance.now();
+    let last = 0;
+    let running = false;
 
     const tick = (now: number) => {
       const dt = now - last;
@@ -316,9 +320,27 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
       }
       raf = requestAnimationFrame(tick);
     };
+    const start = () => {
+      if (running) return;
+      running = true;
+      last = performance.now();
+      raf = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
 
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    if (!el || !("IntersectionObserver" in window)) {
+      start();
+      return stop;
+    }
+    const io = new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop()), { threshold: 0.1 });
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      stop();
+    };
   }, [count, reduced, setProgress]);
 
   function onKeyDown(e: KeyboardEvent<HTMLElement>) {
@@ -434,7 +456,8 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                         src={slide.imageUrl}
                         alt={slide.title || "JSS Innovative Solutions"}
                         className="h-full w-full rounded-[1.25rem] object-cover"
-                        loading={i === 0 ? "eager" : "lazy"}
+                        loading="lazy"
+                        decoding="async"
                         draggable={false}
                       />
                     </div>
@@ -471,16 +494,16 @@ export default function HeroSlider({ slides }: { slides: Slide[] }) {
                     onClick={() => goTo(i)}
                     aria-label={`Show slide ${i + 1}: ${slide.title || "highlight"}`}
                     aria-current={active}
-                    className="group relative flex min-h-14 flex-1 items-center pr-3 text-left focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white md:items-start md:pt-4"
+                    className="group relative flex min-h-14 flex-1 items-center pr-3 text-left focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white min-w-0 lg:items-start lg:pt-4"
                   >
-                    <span className="absolute inset-x-0 top-0 h-[3px] bg-white/10 md:bg-white/15" aria-hidden="true">
+                    <span className="absolute inset-x-0 top-0 h-[3px] bg-white/10 lg:bg-white/15" aria-hidden="true">
                       <span
                         className={`absolute inset-0 origin-left bg-gradient-to-r from-[#e11d2a] to-[#ff7a2f] ${active ? "" : "scale-x-0"}`}
                         style={active ? { transform: reduced ? "scaleX(1)" : "scaleX(var(--p, 0))" } : undefined}
                       />
                     </span>
                     <span
-                      className={`hidden truncate text-sm font-medium transition-colors md:block ${
+                      className={`hidden truncate text-sm font-medium transition-colors lg:block ${
                         active ? "text-white" : "text-white/50 group-hover:text-white/80"
                       }`}
                     >

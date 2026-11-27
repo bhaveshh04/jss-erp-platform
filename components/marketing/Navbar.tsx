@@ -189,8 +189,8 @@ export default function Navbar({ company, products, solutions }: Props) {
             <Image
               src="/logo.png"
               alt={company.name}
-              width={762}
-              height={327}
+              width={140}
+              height={60}
               priority
               className={`w-auto transition-all duration-500 ${scrolled ? "h-9" : "h-10 sm:h-11"}`}
             />

@@ -21,6 +21,7 @@ export default async function About() {
   return (
     <>
 <PageHero
+  crumb={{ name: "Company", path: "/about" }}
   eyebrow={`About ${company.name}`}
   title="Integrating business"
   highlight="with technology."

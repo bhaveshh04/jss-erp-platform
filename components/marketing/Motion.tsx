@@ -78,7 +78,9 @@ export default function Motion() {
       card.style.setProperty("--mx", `${e.clientX - r.left}px`);
       card.style.setProperty("--my", `${e.clientY - r.top}px`);
     };
-    document.addEventListener("pointermove", onMove, { passive: true });
+    // only on devices with a real mouse — phones don't need it
+    const hasMouse = window.matchMedia("(hover: hover) and (min-width: 1024px)").matches;
+    if (hasMouse) document.addEventListener("pointermove", onMove, { passive: true });
 
     return () => {
       io?.disconnect();

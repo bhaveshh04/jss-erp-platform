@@ -20,6 +20,7 @@ export default async function Careers() {
   return (
     <>
 <PageHero
+  crumb={{ name: "Careers", path: "/careers" }}
   eyebrow="Careers"
   title="Build ERP that ships to real clients,"
   highlight="not a sandbox."

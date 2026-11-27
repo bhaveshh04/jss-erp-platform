@@ -20,6 +20,7 @@ export default async function Contact() {
   return (
     <>
 <PageHero
+  crumb={{ name: "Contact", path: "/contact" }}
   eyebrow="Contact"
   title="Let's map your process"
   highlight="before we talk product."

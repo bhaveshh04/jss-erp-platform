@@ -9,7 +9,8 @@ import {
   SECTION_LABELS,
   type SectionKey,
 } from "@/lib/site-sections";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { SITE_CONTENT_TAG } from "@/lib/site-content-db";
 export const runtime = "nodejs";
 
 type Params = {
@@ -125,6 +126,9 @@ export async function PUT(
   },
 });
 
+    // Drop the cached website content right away so the owner sees the change on the next visit,
+    // then re-render every page that uses it.
+    revalidateTag(SITE_CONTENT_TAG, { expire: 0 });
     revalidatePath("/", "layout");
 
     try {

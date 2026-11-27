@@ -168,16 +168,21 @@
   background-size: 20px 20px;
 }
 
+/* Soft colour glow. A radial MASK (not filter: blur) gives the same soft edge
+   at a fraction of the GPU cost, which matters a lot on phones. */
 .glow {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(100px);
   pointer-events: none;
-  will-change: transform;
+  -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 100%);
 }
-.drift-a { animation: drift-a 20s ease-in-out infinite alternate; }
-.drift-b { animation: drift-b 24s ease-in-out infinite alternate; }
-.drift-c { animation: drift-c 28s ease-in-out infinite alternate; }
+/* drifting glows only on large screens with a mouse — phones keep them still */
+@media (min-width: 1024px) and (hover: hover) {
+  .drift-a { animation: drift-a 20s ease-in-out infinite alternate; will-change: transform; }
+  .drift-b { animation: drift-b 24s ease-in-out infinite alternate; will-change: transform; }
+  .drift-c { animation: drift-c 28s ease-in-out infinite alternate; will-change: transform; }
+}
 @keyframes drift-a { to { transform: translate3d(90px, 50px, 0) scale(1.15); } }
 @keyframes drift-b { to { transform: translate3d(-110px, 70px, 0) scale(0.9); } }
 @keyframes drift-c { to { transform: translate3d(60px, -80px, 0) scale(1.2); } }
@@ -225,8 +230,18 @@
   animation-delay: var(--d, 0ms);
 }
 @keyframes rise {
-  from { opacity: 0; transform: translateY(26px); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: none; }
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+/* headline entrance: moves but never starts invisible, so it can be the page's
+   first big paint (good for Largest Contentful Paint / SEO) */
+.rise-text {
+  animation: rise-text 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes rise-text {
+  from { transform: translateY(18px); }
+  to { transform: none; }
 }
 
 .float-a { animation: float 7s ease-in-out infinite; }
@@ -308,8 +323,47 @@
   box-shadow: 0 0 0 4px rgba(225, 29, 42, 0.1);
 }
 
+/* ---------- phones & tablets: same look, far less GPU work ----------
+   Backdrop blur, blend-mode grain and endless animations are the main causes
+   of janky scrolling and battery drain on mobile, so they're switched off or
+   replaced with flat equivalents below 1024px / on touch screens. */
+@media (max-width: 1023px), (hover: none) {
+  .glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .glass-strong {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: linear-gradient(180deg, #18204a, #0e1430);
+  }
+  .glass-light {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(11, 31, 75, 0.05), 0 12px 30px -18px rgba(11, 31, 75, 0.2);
+  }
+  /* the navbar keeps a light blur — it's the one surface that floats over content */
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .grain::after { display: none; }
+  .float-a, .float-b, .spin-slow { animation: none; }
+  .spot::after { display: none; }
+  .reveal {
+    transform: translateY(16px);
+    transition-duration: 0.6s;
+  }
+  .marquee-track { animation-duration: 60s; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
+  .rise, .rise-text { animation: none; }
   .marquee-track, .drift-a, .drift-b, .drift-c, .float-a, .float-b, .spin-slow { animation: none; }
   .draw { stroke-dashoffset: 0; animation: none; }
 }

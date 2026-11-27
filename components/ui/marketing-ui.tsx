@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { SITE_URL } from "@/lib/seo";
 
 /* Small pill label above section titles */
 export function Eyebrow({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
@@ -73,14 +74,32 @@ export function PageHero({
   title,
   description,
   highlight,
+  crumb,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   highlight?: string;
+  /** e.g. { name: "About", path: "/about" } — adds a visible breadcrumb + Google breadcrumb data */
+  crumb?: { name: string; path: string };
 }) {
+  const breadcrumbLd = crumb && {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: crumb.name, item: `${SITE_URL}${crumb.path}` },
+    ],
+  };
+
   return (
     <section className="grain relative isolate overflow-hidden bg-night text-white">
+      {breadcrumbLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd).replace(/</g, "\\u003c") }}
+        />
+      )}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="grid-lines absolute inset-0" />
         <div className="glow drift-a -left-40 -top-40 h-[480px] w-[480px] bg-[#e11d2a]/35" />
@@ -89,13 +108,28 @@ export function PageHero({
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       </div>
       <div className="mx-auto max-w-7xl px-5 pb-20 pt-36 sm:px-8 sm:pb-24 sm:pt-44">
+        {crumb && (
+          <nav aria-label="Breadcrumb" className="rise mb-6 text-sm text-white/45">
+            <ol className="flex items-center gap-2">
+              <li>
+                <Link href="/" className="transition-colors hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="text-white/75">
+                {crumb.name}
+              </li>
+            </ol>
+          </nav>
+        )}
         {eyebrow && (
           <div className="rise">
             <Eyebrow dark>{eyebrow}</Eyebrow>
           </div>
         )}
         <h1
-          className="rise font-display mt-6 max-w-4xl text-[2.6rem] font-semibold leading-[1.02] sm:text-6xl lg:text-7xl"
+          className="rise-text font-display mt-6 max-w-4xl text-[2.6rem] font-semibold leading-[1.02] sm:text-6xl lg:text-7xl"
           style={{ "--d": "90ms" } as React.CSSProperties}
         >
           <span className="text-silver">{title}</span>
@@ -108,7 +142,7 @@ export function PageHero({
         </h1>
         {description && (
           <p
-            className="rise mt-6 max-w-2xl text-lg leading-relaxed text-white/65"
+            className="rise-text mt-6 max-w-2xl text-lg leading-relaxed text-white/65"
             style={{ "--d": "180ms" } as React.CSSProperties}
           >
             {description}

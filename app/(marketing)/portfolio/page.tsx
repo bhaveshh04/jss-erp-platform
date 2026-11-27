@@ -16,6 +16,7 @@ export default async function Portfolio() {
   return (
     <>
     <PageHero
+  crumb={{ name: "Portfolio", path: "/portfolio" }}
   eyebrow="Portfolio"
   title="Representative"
   highlight="implementations."

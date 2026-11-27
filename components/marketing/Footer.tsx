@@ -103,7 +103,7 @@ export default function Footer({ company, products }: Props) {
               className="inline-block rounded-2xl bg-white px-4 py-3 shadow-[0_10px_40px_-10px_rgba(225,29,42,0.45)]"
               aria-label={`${company.name} — home`}
             >
-              <Image src="/logo.png" alt={company.name} width={762} height={327} className="h-11 w-auto" />
+              <Image src="/logo.png" alt={company.name} width={140} height={60} className="h-11 w-auto" />
             </Link>
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/55">
               {company.tagline} — a Pune-based ERP implementation and software development partner serving
@@ -167,7 +167,7 @@ export default function Footer({ company, products }: Props) {
 
       {/* oversized wordmark */}
       <div aria-hidden="true" className="relative mx-auto max-w-7xl select-none overflow-hidden px-5 sm:px-8">
-        <div className="font-display text-outline text-center text-[24vw] font-extrabold leading-[0.78] tracking-[-0.06em] lg:text-[17rem]">
+        <div className="font-display text-outline text-center text-[24vw] font-bold leading-[0.78] tracking-[-0.06em] lg:text-[17rem]">
           JSS<span className="ml-[0.04em] inline-block h-[0.16em] w-[0.16em] rounded-full bg-gradient-to-br from-[#ffb648] via-[#ff7a2f] to-[#e11d2a] align-baseline shadow-[0_0_60px_rgba(255,122,47,0.6)]" />
         </div>
       </div>
